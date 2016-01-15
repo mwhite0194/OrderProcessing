@@ -10,4 +10,6 @@ package orderProcessing;
  */
 public class Exchange extends Transaction {
     
+    private int exchangeID;
+    
 }

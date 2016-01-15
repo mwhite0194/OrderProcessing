@@ -10,4 +10,6 @@ package orderProcessing;
  */
 public abstract class Transaction {
     
+    private int orderID, price;
+    
 }

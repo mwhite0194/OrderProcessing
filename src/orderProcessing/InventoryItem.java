@@ -10,4 +10,7 @@ package orderProcessing;
  */
 public class InventoryItem {
     
+    private int productID, productPrice;
+    private String productDesc;
+    
 }

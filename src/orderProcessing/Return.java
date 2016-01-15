@@ -10,4 +10,6 @@ package orderProcessing;
  */
 public class Return extends Transaction {
     
+    private int returnID;
+    
 }

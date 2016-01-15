@@ -10,4 +10,8 @@ package orderProcessing;
  */
 public class Customer {
     
+    private int customerID, phone;
+    private String address, name;
+   
+    
 }

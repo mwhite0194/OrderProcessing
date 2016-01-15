@@ -10,4 +10,6 @@ package orderProcessing;
  */
 public class Inventory {
     
+    private int quantity;
+    
 }
