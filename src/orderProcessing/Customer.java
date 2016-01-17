@@ -17,7 +17,7 @@ public class Customer {
     private final int customerID;
     private int phone, zip;
     private String address, addressLine2, city, state, country, firstName, lastName;
-    private ArrayList<Transaction> transactionHistory;
+    private final ArrayList<Transaction> transactionHistory;
    
     /**
      * Constructor for Customer
