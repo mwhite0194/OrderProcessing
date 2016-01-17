@@ -7,7 +7,7 @@ package orderProcessing;
 import java.util.Scanner;
 
 /**
- *
+ * The class for demoing the system
  * @author J. Barclay Walsh and Matt White
  */
 public class TransactionMaker {

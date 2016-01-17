@@ -15,9 +15,24 @@ public class InventoryItem {
     private final int productID; 
     private double productPrice;
     private String productDesc;
+    private int quantity;
     
     /**
      * Constructor for InventoryItem
+     * @param newPrice
+     * @param newDescription 
+     * @param newQuantity 
+     */
+    public InventoryItem(double newPrice, String newDescription, int newQuantity) {
+        this.productID = nextProductID;
+        InventoryItem.nextProductID++;
+        this.productPrice = newPrice;
+        this.productDesc = newDescription;
+        this.quantity = newQuantity;
+    }
+    
+    /**
+     * Constructor for InventoryItem (no default quantity)
      * @param newPrice
      * @param newDescription 
      */
@@ -26,6 +41,7 @@ public class InventoryItem {
         InventoryItem.nextProductID++;
         this.productPrice = newPrice;
         this.productDesc = newDescription;
+        this.quantity = 0;
     }
     
     // Getters and setters
@@ -68,6 +84,22 @@ public class InventoryItem {
      */
     public void setDescription(String newDesc) {
         this.productDesc = newDesc;
+    }
+    
+    /**
+     * Get product inventory quantity
+     * @return InventoryItem's Quantity
+     */
+    public int getQuantity() {
+        return this.quantity;
+    }
+    
+    /**
+     * Set product inventory quantity
+     * @param newQuantity the new quantity for the product
+     */
+    public void setQuantity(int newQuantity) {
+        this.quantity = newQuantity;
     }
     
 }
