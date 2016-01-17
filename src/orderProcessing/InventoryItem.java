@@ -16,6 +16,11 @@ public class InventoryItem {
     private double productPrice;
     private String productDesc;
     
+    /**
+     * Constructor for InventoryItem
+     * @param newPrice
+     * @param newDescription 
+     */
     public InventoryItem(double newPrice, String newDescription) {
         this.productID = nextProductID;
         InventoryItem.nextProductID++;
