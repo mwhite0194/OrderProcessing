@@ -7,14 +7,15 @@ package orderProcessing;
 import java.util.ArrayList;
 
 /**
- *
+ * Class for Customer objects in the transaction processing system
  * @author J. Barclay Walsh and Matt White
  */
 public class Customer {
     
     private static int nextCustomerID;
     
-    private int customerID, phone, zip;
+    private final int customerID;
+    private int phone, zip;
     private String address, addressLine2, city, state, country, firstName, lastName;
     private ArrayList<Transaction> transactionHistory;
    
@@ -83,7 +84,7 @@ public class Customer {
      * @param newAddressLine2 new address (line 2) for customer
      */
     public void setAddressLine2(String newAddressLine2) {
-        this.address = newAddressLine2;
+        this.addressLine2 = newAddressLine2;
     }
     
     /**
