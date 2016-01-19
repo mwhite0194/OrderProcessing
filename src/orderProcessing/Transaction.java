@@ -26,7 +26,11 @@ public abstract class Transaction {
      * @return the next orderID to use
      */
     public static int getNextOrderID() {
-        nextOrderID++;
+        if (nextOrderID > 0) {
+            nextOrderID++;
+        } else {
+            nextOrderID = 1;
+        }
         return nextOrderID;
     }
     

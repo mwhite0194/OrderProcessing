@@ -26,7 +26,7 @@ public class Sale extends Transaction {
     }
     
     /**
-     * Process the return
+     * Process the sale
      * @param theProductID the ID of the purchased product
      * @param theQuantity the quantity of the product purchased
      * @param theCustomer the customer ordering the product(s)
@@ -42,7 +42,8 @@ public class Sale extends Transaction {
             this.total = (Inventory.getInventory().getItemByID(theProductID).getPrice()) * (theQuantity);
             this.productID = theProductID;
             this.quantity = theQuantity;
-            theCustomer.addTransaction(this);
+            CustomerList.getCustomers().getCustomerByID(theCustomer.getCustomerID()).addTransaction(this);
+            System.out.println("Valid transaction. Successful sale of " + theQuantity + " " + Inventory.getInventory().getItemByID(theProductID).getDescription() + "(s) to " + theCustomer.getFullName() + " for a total of $" + HelperMethods.priceToString(this.total) + "." + " (Order ID: " + this.orderID + ")");
             return true;
         } else {
             // Invalid transaction; inform customer

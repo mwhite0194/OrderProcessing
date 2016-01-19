@@ -17,31 +17,33 @@ public class TransactionMaker {
         // Test the order processing system
         Scanner scanner = new Scanner(System.in);
         
-        Customer customer = new Customer("123", "456", "state", "pa", "usa", 16801, "bob", "smith", 5555);
-        InventoryItem item = new InventoryItem(34, "book", 2);
+        Customer customer = new Customer("123 Test St.", "Apt. #14", "State College", "PA", "USA", 16801, "Bob", "Smith", 1235555555);
+        CustomerList.getCustomers().addCustomer(customer);
+        
+        InventoryItem testItem = new InventoryItem(34, "Book", 20); // (price, description, quantity)
+        Inventory.getInventory().addItem(testItem);
+        Sale firstSale = new Sale(0, 4, customer); // (productID, quantity, customer)
+        
+        System.out.println("Customer Order History: ");
+        CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).printOrderHistory();
+        System.out.println();
         
         System.out.print("Would you like to buy, return, or exchange?: ");
         String userOption = scanner.next();
-        if (userOption.startsWith("b"))
-        {
-            Sale sale = new Sale(3, 3, customer);
+        if (userOption.startsWith("b")) {
+            Sale theSale = new Sale(0, 2, CustomerList.getCustomers().getCustomerByID(customer.getCustomerID())); // (productID, quantity, customer)
         }
-        if (userOption.startsWith("r"))
-        {
-            //Return return = new Return();
+        if (userOption.startsWith("r")) {
+            Return theReturn = new Return(1, 4, CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()));
         }
-        if (userOption.startsWith("e"))
-        {
+        if (userOption.startsWith("e")) {
             //Exchange exchange = new Exchange()
+            System.out.println("Will be added soon!");
         }
-        System.out.print("Enter amount to pay ");
-
-
         
-        //reciept
-        System.out.println("Customer Information: " + customer.getFirstName() + customer.getFullAddress());
-        System.out.println("Item: " + item.getDescription() + item.getProductID() + item.getPrice());
-        System.out.println("Ite: ");
+        // Print Reciept
+        System.out.println("Customer Information: " + CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).getFullName() + " (" + CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).getFullAddress() + ")");
+        System.out.println("Item: " + testItem.getDescription() + " - Product ID: " + testItem.getProductID() + " - Unit Price: $" + HelperMethods.priceToString(testItem.getPrice()));
         System.out.println("");
     }
     

@@ -37,6 +37,7 @@ public class Customer {
         this.address = newAddress;
         this.addressLine2 = newaddressLine2;
         this.city = newCity;
+        this.state = newState;
         this.country = newCountry;
         this.zip = newZip;
         this.firstName = newFirstName;
@@ -221,6 +222,46 @@ public class Customer {
      */
     public void addTransaction(Transaction newTransaction) {
         this.transactionHistory.add(newTransaction);
+    }
+    
+    /**
+     * Get Transaction List
+     * @return the list of transactions
+     */
+    public ArrayList<Transaction> getTransactions() {
+        return this.transactionHistory;
+    }
+    
+    /**
+     * Validate Transaction By OrderID
+     * @param orderIDToGet the orderID to lookup in the customer's order history
+     * @return true if customer has the transactionID in their history, false if they do not have it
+     */
+    public boolean validateTransactionByID(int orderIDToGet) {
+        return this.transactionHistory.stream().anyMatch((theTransaction) -> (theTransaction.getProductID() == orderIDToGet));
+    }
+    
+    /**
+     * Get Transaction By OrderID
+     * @param orderIDToGet the orderID to lookup in the customer's order history
+     * @return the transaction if customer has the transactionID in their history, NULL if they do not have it
+     */
+    public Transaction getTransactionByID(int orderIDToGet) {
+        for (Transaction theTransaction : this.transactionHistory) {
+            if (theTransaction.getProductID() == orderIDToGet) {
+                return theTransaction;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Print Order History
+     */
+    public void printOrderHistory() {
+        this.transactionHistory.stream().forEach((theTransaction) -> {
+            System.out.println("Order ID: " + theTransaction.getOrderID() + "; Product ID: " + theTransaction.getProductID() + "; Total: $" + HelperMethods.priceToString(theTransaction.getTotal()));
+        });
     }
     
 }
