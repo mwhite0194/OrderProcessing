@@ -34,7 +34,12 @@ public class TransactionMaker {
             Sale theSale = new Sale(0, 2, CustomerList.getCustomers().getCustomerByID(customer.getCustomerID())); // (productID, quantity, customer)
         }
         if (userOption.startsWith("r")) {
-            Return theReturn = new Return(1, 4, CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()));
+            /*if (CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).validateTransactionByID(0)) {
+                System.out.println("Valid");
+            } else {
+                System.out.println("Invalid");
+            }*/
+            Return theReturn = new Return(1, 4, CustomerList.getCustomers().getCustomerByID(customer.getCustomerID())); // (orderID, quantity, customer)
         }
         if (userOption.startsWith("e")) {
             //Exchange exchange = new Exchange()
