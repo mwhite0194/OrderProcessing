@@ -38,33 +38,25 @@ public abstract class Transaction {
      * Get orderID
      * @return the orderID
      */
-    public int getOrderID() {
-        return this.orderID;
-    }
+    public abstract int getOrderID();
     
     /**
      * Get total
      * @return the total
      */
-    public double getTotal() {
-        return this.total;
-    }
+    public abstract double getTotal();
     
     /**
      * Get productID
      * @return the productID
      */
-    public int getProductID() {
-        return this.productID;
-    }
+    public abstract int getProductID();
     
     /**
      * Get quantity
      * @return the quantity
      */
-    public int getQuantity() {
-        return this.quantity;
-    }
+    public abstract int getQuantity();
     
     /**
      * Print Transaction Details

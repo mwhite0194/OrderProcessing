@@ -29,6 +29,42 @@ public class Exchange extends Transaction {
     }
     
     /**
+     * Get orderID
+     * @return the orderID
+     */
+    @Override
+    public int getOrderID() {
+        return this.orderID;
+    }
+    
+    /**
+     * Get total
+     * @return the total
+     */
+    @Override
+    public double getTotal() {
+        return this.total;
+    }
+    
+    /**
+     * Get productID
+     * @return the productID
+     */
+    @Override
+    public int getProductID() {
+        return this.productID;
+    }
+    
+    /**
+     * Get quantity
+     * @return the quantity
+     */
+    @Override
+    public int getQuantity() {
+        return this.quantity;
+    }
+    
+    /**
      * Print transaction details
      */
     @Override

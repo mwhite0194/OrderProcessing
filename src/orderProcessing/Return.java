@@ -34,7 +34,9 @@ public class Return extends Transaction {
      */
     @Override
     public final boolean processTransaction(int theOrderID, int theQuantity, Customer theCustomer) {
-        if (theCustomer.validateTransactionByID(theOrderID)) {
+        System.out.println("LOOK HERE");
+        //CustomerList.getCustomers().getCustomerByID(theCustomer.getCustomerID()).printOrderHistory();
+        if (CustomerList.getCustomers().getCustomerByID(theCustomer.getCustomerID()).validateTransactionByID(theOrderID)) {
             // Customer has placed this order; process return
             
             // TODO: Accept returns of less than the total (max) quantity
@@ -62,6 +64,42 @@ public class Return extends Transaction {
             System.out.println("Invalid return. Invalid order or incorrect customer.");
             return false;
         }
+    }
+    
+    /**
+     * Get orderID
+     * @return the orderID
+     */
+    @Override
+    public int getOrderID() {
+        return this.orderID;
+    }
+    
+    /**
+     * Get total
+     * @return the total
+     */
+    @Override
+    public double getTotal() {
+        return this.total;
+    }
+    
+    /**
+     * Get productID
+     * @return the productID
+     */
+    @Override
+    public int getProductID() {
+        return this.productID;
+    }
+    
+    /**
+     * Get quantity
+     * @return the quantity
+     */
+    @Override
+    public int getQuantity() {
+        return this.quantity;
     }
     
     /**

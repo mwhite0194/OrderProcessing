@@ -238,7 +238,16 @@ public class Customer {
      * @return true if customer has the transactionID in their history, false if they do not have it
      */
     public boolean validateTransactionByID(int orderIDToGet) {
-        return this.transactionHistory.stream().anyMatch((theTransaction) -> (theTransaction.getProductID() == orderIDToGet));
+        for (Transaction theTransaction : this.transactionHistory) {
+            System.out.println("Order ID: " + theTransaction.getOrderID());
+            theTransaction.printTransactionDetails();
+            if (theTransaction.getProductID() == orderIDToGet) {
+                return true;
+            }
+        }
+        return false;
+        
+        //return this.transactionHistory.stream().anyMatch((theTransaction) -> (theTransaction.getProductID() == orderIDToGet));
     }
     
     /**
@@ -259,9 +268,10 @@ public class Customer {
      * Print Order History
      */
     public void printOrderHistory() {
-        System.out.println("\n-------------------------------------------------");
+        System.out.println("\n-------------------------------------------------------------\n");
         System.out.println("Customer Order History (" + this.getFullName() + "): ");
         if(this.transactionHistory.size() > 0) {
+            System.out.println("\nOrder ID\tProduct ID\t\tQuantity\tTotal");
             this.transactionHistory.stream().forEach((theTransaction) -> {
                 theTransaction.printTransactionDetails();
                 //System.out.println("Order ID: " + theTransaction.getOrderID() + "; Product ID: " + theTransaction.getProductID() + "; Total: $" + HelperMethods.priceToString(theTransaction.getTotal()));
@@ -269,7 +279,7 @@ public class Customer {
         } else {
             System.out.println("This customer has not placed any orders yet.");
         }
-        System.out.println("-------------------------------------------------\n");
+        System.out.println("\n-------------------------------------------------------------\n");
     }
     
 }
