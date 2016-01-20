@@ -16,6 +16,7 @@ public class TransactionMaker {
     public static void main(String[] args) {
         // Test the order processing system
         Scanner scanner = new Scanner(System.in);
+        boolean userIsActive = true;
         
         Customer customer = new Customer("123 Test St.", "Apt. #14", "State College", "PA", "USA", 16801, "Bob", "Smith", 1235555555);
         CustomerList.getCustomers().addCustomer(customer);
@@ -30,9 +31,26 @@ public class TransactionMaker {
         
         System.out.print("Would you like to [b]uy, [r]eturn, or [e]xchange?: ");
         String userOption = scanner.next();
-        if (userOption.startsWith("b")) {
-            Sale theSale = new Sale(0, 2, CustomerList.getCustomers().getCustomerByID(customer.getCustomerID())); // (productID, quantity, customer)
+        
+        while (userIsActive == true) {
+            if (userOption.startsWith("b")) {
+                Sale theSale = new Sale(0, 45, CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()));
+                if (theSale.equals(false)) {
+                    break;
+                }
+            }
+            //Offer to allow sale of entire current stock instead
+            String purchaseRemaining = scanner.next();
+            if (purchaseRemaining.startsWith("y")) {
+                Sale theSale2 = new Sale(0, (Inventory.getInventory().getItemByID(0).getQuantity()),
+                        CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()));
+            } else {
+                return;
+            }
+            userIsActive = false;
         }
+        
+        
         if (userOption.startsWith("r")) {
             /*if (CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).validateTransactionByID(0)) {
                 System.out.println("Valid");
