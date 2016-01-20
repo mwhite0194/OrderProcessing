@@ -28,4 +28,12 @@ public class InventoryAdjustment extends Transaction {
         return false;
     }
     
+    /**
+     * Print transaction details
+     */
+    @Override
+    public void printTransactionDetails() {
+        System.out.println("\nTransaction Details:\nOrder ID: " + this.orderID + "; Total: " + this.total + "; Product ID: " + this.productID + "; Quantity: " + this.quantity + "\n");
+    }
+    
 }

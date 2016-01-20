@@ -20,15 +20,15 @@ public class TransactionMaker {
         Customer customer = new Customer("123 Test St.", "Apt. #14", "State College", "PA", "USA", 16801, "Bob", "Smith", 1235555555);
         CustomerList.getCustomers().addCustomer(customer);
         
-        InventoryItem testItem = new InventoryItem(34, "Book", 20); // (price, description, quantity)
+        CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).printOrderHistory();
+        
+        InventoryItem testItem = new InventoryItem(34, "Green Book", 20); // (price, description, quantity)
         Inventory.getInventory().addItem(testItem);
         Sale firstSale = new Sale(0, 4, customer); // (productID, quantity, customer)
         
-        System.out.println("Customer Order History: ");
         CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).printOrderHistory();
-        System.out.println();
         
-        System.out.print("Would you like to buy, return, or exchange?: ");
+        System.out.print("Would you like to [b]uy, [r]eturn, or [e]xchange?: ");
         String userOption = scanner.next();
         if (userOption.startsWith("b")) {
             Sale theSale = new Sale(0, 2, CustomerList.getCustomers().getCustomerByID(customer.getCustomerID())); // (productID, quantity, customer)
@@ -42,9 +42,11 @@ public class TransactionMaker {
         }
         
         // Print Reciept
-        System.out.println("Customer Information: " + CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).getFullName() + " (" + CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).getFullAddress() + ")");
-        System.out.println("Item: " + testItem.getDescription() + " - Product ID: " + testItem.getProductID() + " - Unit Price: $" + HelperMethods.priceToString(testItem.getPrice()));
-        System.out.println("");
+        //System.out.println("Customer Information: " + CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).getFullName() + " (" + CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).getFullAddress() + ")");
+        //System.out.println("Item: " + testItem.getDescription() + " - Product ID: " + testItem.getProductID() + " - Unit Price: $" + HelperMethods.priceToString(testItem.getPrice()));
+        //System.out.println("");
+        
+        CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).printOrderHistory();
     }
     
 }

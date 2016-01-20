@@ -66,4 +66,9 @@ public abstract class Transaction {
         return this.quantity;
     }
     
+    /**
+     * Print Transaction Details
+     */
+    public abstract void printTransactionDetails();
+    
 }

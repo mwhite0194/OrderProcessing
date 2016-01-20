@@ -16,7 +16,7 @@ public class Sale extends Transaction {
     private int quantity;
     
     /**
-     * Private - can only be called from processTransaction() method
+     * Create new Sale
      * @param newProductID
      * @param newQuantity
      * @param newCustomer
@@ -42,6 +42,9 @@ public class Sale extends Transaction {
             this.total = (Inventory.getInventory().getItemByID(theProductID).getPrice()) * (theQuantity);
             this.productID = theProductID;
             this.quantity = theQuantity;
+            
+            this.printTransactionDetails();
+            
             CustomerList.getCustomers().getCustomerByID(theCustomer.getCustomerID()).addTransaction(this);
             System.out.println("Valid transaction. Successful sale of " + theQuantity + " " + Inventory.getInventory().getItemByID(theProductID).getDescription() + "(s) to " + theCustomer.getFullName() + " for a total of $" + HelperMethods.priceToString(this.total) + "." + " (Order ID: " + this.orderID + ")");
             return true;
@@ -51,6 +54,15 @@ public class Sale extends Transaction {
             // TODO: Offer to allow sale of entire current stock instead
             return false;
         }
+    }
+    
+    /**
+     * Print transaction details
+     */
+    @Override
+    public void printTransactionDetails() {
+        //System.out.println("\nTransaction Details:\nOrder ID: " + this.orderID + "; Total: " + this.total + "; Product ID: " + this.productID + "; Quantity: " + this.quantity + "\n");
+        System.out.println("Order ID: " + this.orderID + "; Product ID: " + this.productID + " (" + Inventory.getInventory().getItemByID(this.productID).getDescription() + "); Quantity: $" + this.quantity + "; Total: $" + HelperMethods.priceToString(this.total));
     }
     
 }

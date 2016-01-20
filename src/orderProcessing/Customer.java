@@ -259,9 +259,17 @@ public class Customer {
      * Print Order History
      */
     public void printOrderHistory() {
-        this.transactionHistory.stream().forEach((theTransaction) -> {
-            System.out.println("Order ID: " + theTransaction.getOrderID() + "; Product ID: " + theTransaction.getProductID() + "; Total: $" + HelperMethods.priceToString(theTransaction.getTotal()));
-        });
+        System.out.println("\n-------------------------------------------------");
+        System.out.println("Customer Order History (" + this.getFullName() + "): ");
+        if(this.transactionHistory.size() > 0) {
+            this.transactionHistory.stream().forEach((theTransaction) -> {
+                theTransaction.printTransactionDetails();
+                //System.out.println("Order ID: " + theTransaction.getOrderID() + "; Product ID: " + theTransaction.getProductID() + "; Total: $" + HelperMethods.priceToString(theTransaction.getTotal()));
+            });
+        } else {
+            System.out.println("This customer has not placed any orders yet.");
+        }
+        System.out.println("-------------------------------------------------\n");
     }
     
 }
