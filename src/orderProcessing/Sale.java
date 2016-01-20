@@ -51,10 +51,13 @@ public class Sale extends Transaction {
         } else {
             // Invalid transaction; inform customer
             System.out.println("Invalid transaction. Quantity not available.");
-            // TODO: Offer to allow sale of entire current stock instead
-            return false;
+            // TODO: Offer to allow sale of entire current stock instead         
+            System.out.println("Would you like to make purchase the remaining quantity of: " + 
+                    Inventory.getInventory().getItemByID(theProductID).getQuantity() + "?");
+            return false;   
         }
     }
+    
     
     /**
      * Print transaction details
