@@ -14,6 +14,7 @@ public class Sale extends Transaction {
     private double total;
     private int productID;
     private int quantity;
+    private int type;
     
     /**
      * Create new Sale
@@ -42,6 +43,7 @@ public class Sale extends Transaction {
             this.total = (Inventory.getInventory().getItemByID(theProductID).getPrice()) * (theQuantity);
             this.productID = theProductID;
             this.quantity = theQuantity;
+            this.type = 0; // 0 = sale
             
             CustomerList.getCustomers().getCustomerByID(theCustomer.getCustomerID()).addTransaction(this);
             System.out.println("Valid transaction. Successful sale of " + theQuantity + " " + Inventory.getInventory().getItemByID(theProductID).getDescription() + "(s) to " + theCustomer.getFullName() + " for a total of $" + HelperMethods.priceToString(this.total) + "." + " (Order ID: " + this.orderID + ")");
@@ -91,6 +93,15 @@ public class Sale extends Transaction {
     @Override
     public int getQuantity() {
         return this.quantity;
+    }
+    
+    /**
+     * Get type
+     * @return the type (0 = sale; 1 = return; 2 = exchange; 3 = inventory adjustment)
+     */
+    @Override
+    public int getType() {
+        return this.type;
     }
     
     /**

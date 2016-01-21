@@ -14,6 +14,7 @@ public class Return extends Transaction {
     private double total;
     private int productID;
     private int quantity;
+    private int type;
     
     /**
      * Private - can only be called from processTransaction() method
@@ -56,6 +57,8 @@ public class Return extends Transaction {
             this.total = -1 * returnTotal;
             this.productID = returnProductID;
             this.quantity = returnQuantity;
+            this.type = 1; // 1 = return
+            
             CustomerList.getCustomers().getCustomerByID(theCustomer.getCustomerID()).addTransaction(this);
             System.out.println("Valid transaction. Successful reuturn of " + returnQuantity + " " + returnDescription + "(s) from " + theCustomer.getFullName() + " for a total refund of $" + HelperMethods.priceToString((-1 * this.total)) + ".");
             return true;
@@ -100,6 +103,15 @@ public class Return extends Transaction {
     @Override
     public int getQuantity() {
         return this.quantity;
+    }
+    
+    /**
+     * Get type
+     * @return the type (0 = sale; 1 = return; 2 = exchange; 3 = inventory adjustment)
+     */
+    @Override
+    public int getType() {
+        return this.type;
     }
     
     /**

@@ -14,6 +14,7 @@ public class InventoryAdjustment extends Transaction {
     private double total;
     private int productID;
     private int quantity;
+    private int type;
     
     /**
      * Process the return
@@ -62,6 +63,15 @@ public class InventoryAdjustment extends Transaction {
     @Override
     public int getQuantity() {
         return this.quantity;
+    }
+    
+    /**
+     * Get type
+     * @return the type (0 = sale; 1 = return; 2 = exchange; 3 = inventory adjustment)
+     */
+    @Override
+    public int getType() {
+        return this.type;
     }
     
     /**

@@ -16,6 +16,7 @@ public abstract class Transaction {
     private double total;
     private int productID;
     private int quantity;
+    private int type; // 0 = sale; 1 = return; 2 = exchange; 3 = inventory adjustment
     
     public abstract boolean processTransaction(int theProductID, int theQuantity, Customer theCustomer);
     
@@ -57,6 +58,12 @@ public abstract class Transaction {
      * @return the quantity
      */
     public abstract int getQuantity();
+    
+    /**
+     * Get type
+     * @return the type (0 = sale; 1 = return; 2 = exchange; 3 = inventory adjustment)
+     */
+    public abstract int getType();
     
     /**
      * Print Transaction Details
