@@ -32,37 +32,36 @@ public class TransactionMaker {
         System.out.print("Would you like to [b]uy, [r]eturn, or [e]xchange?: ");
         String userOption = scanner.next();
         
-        while (userIsActive == true) {
+        //while (userIsActive == true) {
             if (userOption.startsWith("b")) {
                 Sale theSale = new Sale(0, 45, CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()));
                 if (theSale.equals(false)) {
-                    break;
+                    // Offer to allow sale of entire current stock instead
+                    String purchaseRemaining = scanner.next();
+                    if (purchaseRemaining.startsWith("y")) {
+                        userIsActive = false; 
+                        Sale theSale2 = new Sale(0, (Inventory.getInventory().getItemByID(0).getQuantity()),
+                                CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()));
+                    } else {
+                        userIsActive = false;
+                        return;
+                    }    
+                    //break;
                 }
+            } else if (userOption.startsWith("r")) {
+                /*if (CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).validateTransactionByID(0)) {
+                    System.out.println("Valid");
+                } else {
+                    System.out.println("Invalid");
+                }*/
+                Return theReturn = new Return(1, 4, CustomerList.getCustomers().getCustomerByID(customer.getCustomerID())); // (orderID, quantity, customer)
+                userIsActive = false;
+            } else if (userOption.startsWith("e")) {
+                //Exchange exchange = new Exchange()
+                System.out.println("Will be added soon!");
+                userIsActive = false;
             }
-            //Offer to allow sale of entire current stock instead
-            String purchaseRemaining = scanner.next();
-            if (purchaseRemaining.startsWith("y")) {
-                Sale theSale2 = new Sale(0, (Inventory.getInventory().getItemByID(0).getQuantity()),
-                        CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()));
-            } else {
-                return;
-            }
-            userIsActive = false;
-        }
-        
-        
-        if (userOption.startsWith("r")) {
-            /*if (CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).validateTransactionByID(0)) {
-                System.out.println("Valid");
-            } else {
-                System.out.println("Invalid");
-            }*/
-            Return theReturn = new Return(1, 4, CustomerList.getCustomers().getCustomerByID(customer.getCustomerID())); // (orderID, quantity, customer)
-        }
-        if (userOption.startsWith("e")) {
-            //Exchange exchange = new Exchange()
-            System.out.println("Will be added soon!");
-        }
+        //}
         
         // Print Reciept
         //System.out.println("Customer Information: " + CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).getFullName() + " (" + CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).getFullAddress() + ")");
