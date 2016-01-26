@@ -12,11 +12,11 @@ public abstract class Transaction {
     
     private static int nextOrderID;
     
-    private int orderID;
+    /*private int orderID;
     private double total;
     private int productID;
     private int quantity;
-    private int type; // 0 = sale; 1 = return; 2 = exchange; 3 = inventory adjustment
+    private int type; // 0 = sale; 1 = return; 2 = exchange; 3 = inventory adjustment*/
     
     public abstract boolean processTransaction(int theProductID, int theQuantity, Customer theCustomer);
     

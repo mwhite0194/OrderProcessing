@@ -35,13 +35,11 @@ public class Return extends Transaction {
      */
     @Override
     public final boolean processTransaction(int theOrderID, int theQuantity, Customer theCustomer) {
-        System.out.println("LOOK HERE");
         //CustomerList.getCustomers().getCustomerByID(theCustomer.getCustomerID()).printOrderHistory();
         if (CustomerList.getCustomers().getCustomerByID(theCustomer.getCustomerID()).validateTransactionByID(theOrderID)) {
             // Customer has placed this order; process return
             
             // TODO: Accept returns of less than the total (max) quantity
-            
             // Set return variables
             int returnProductID = theCustomer.getTransactionByID(theOrderID).getProductID();
             int returnQuantity = theCustomer.getTransactionByID(theOrderID).getQuantity();

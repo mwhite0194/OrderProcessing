@@ -241,7 +241,7 @@ public class Customer {
         for (Transaction theTransaction : this.transactionHistory) {
             System.out.println("Order ID: " + theTransaction.getOrderID());
             theTransaction.printTransactionDetails();
-            if (theTransaction.getProductID() == orderIDToGet) {
+            if (theTransaction.getOrderID() == orderIDToGet) {
                 return true;
             }
         }
@@ -257,7 +257,7 @@ public class Customer {
      */
     public Transaction getTransactionByID(int orderIDToGet) {
         for (Transaction theTransaction : this.transactionHistory) {
-            if (theTransaction.getProductID() == orderIDToGet) {
+            if (theTransaction.getOrderID() == orderIDToGet) {
                 return theTransaction;
             }
         }
