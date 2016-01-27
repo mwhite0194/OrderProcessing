@@ -16,7 +16,7 @@ public class TransactionMaker {
     public static void main(String[] args) {
         // Test the order processing system
         Scanner scanner = new Scanner(System.in);
-        boolean userIsActive = true;
+        boolean purchaseRemaining = false;
         
         // Generate sample customers        
         generateSampleCustomers();
@@ -36,40 +36,31 @@ public class TransactionMaker {
         System.out.print("Would you like to [b]uy, [r]eturn, or [e]xchange?: ");
         String userOption = scanner.next();
         
-        //while (userIsActive == true) {
             if (userOption.startsWith("b")) {
                 Sale theSale = new Sale(0, 45, CustomerList.getCustomers().getCustomerByID(0));
                 if (theSale.equals(false)) {
-                    // Offer to allow sale of entire current stock instead
-                    String purchaseRemaining = scanner.next();
-                    if (purchaseRemaining.startsWith("y")) {
-                        userIsActive = false; 
-                        Sale theSale2 = new Sale(0, (Inventory.getInventory().getItemByID(0).getQuantity()),
-                                CustomerList.getCustomers().getCustomerByID(0));
-                    } else {
-                        userIsActive = false;
-                        return;
-                    }    
-                    //break;
+                   purchaseRemaining = true;
                 }
             } else if (userOption.startsWith("r")) {
                 Return theReturn = new Return(1, 3, CustomerList.getCustomers().getCustomerByID(0)); // (orderID, quantity, customer)
-                userIsActive = false;
             } else if (userOption.startsWith("e")) {
                 //Exchange exchange = new Exchange()
                 System.out.println("Will be added soon!");
-                userIsActive = false;
             }
-        //}
-        
-        // Print Reciept
-        //System.out.println("Customer Information: " + CustomerList.getCustomers().getCustomerByID(0).getFullName() + " (" + CustomerList.getCustomers().getCustomerByID(0).getFullAddress() + ")");
-        //System.out.println("Item: " + testItem.getDescription() + " - Product ID: " + testItem.getProductID() + " - Unit Price: $" + HelperMethods.priceToString(testItem.getPrice()));
-        //System.out.println("");
+            
+           if (purchaseRemaining = true) {
+            String test = scanner.next();
+            if (test.startsWith("y")) {
+                Sale theSale2 = new Sale(0, (Inventory.getInventory().getItemByID(0).getQuantity()),
+                        CustomerList.getCustomers().getCustomerByID(0));
+            } else {
+                return;
+            }
         
         CustomerList.getCustomers().getCustomerByID(0).printOrderHistory();
         
         Inventory.getInventory().printInventoryWithInventoryValue();
+    }
     }
     
     /**
