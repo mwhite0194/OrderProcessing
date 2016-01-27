@@ -36,27 +36,27 @@ public class TransactionMaker {
         System.out.print("Would you like to [b]uy, [r]eturn, or [e]xchange?: ");
         String userOption = scanner.next();
         
-            if (userOption.startsWith("b")) {
-                Sale theSale = new Sale(0, 45, CustomerList.getCustomers().getCustomerByID(0));
-                if (theSale.equals(false)) {
-                   purchaseRemaining = true;
-                }
-            } else if (userOption.startsWith("r")) {
-                Return theReturn = new Return(1, 3, CustomerList.getCustomers().getCustomerByID(0)); // (orderID, quantity, customer)
-            } else if (userOption.startsWith("e")) {
-                //Exchange exchange = new Exchange()
-                System.out.println("Will be added soon!");
+        if (userOption.startsWith("b")) {
+            Sale theSale = new Sale(0, 45, CustomerList.getCustomers().getCustomerByID(0));
+            if (theSale.equals(false)) {
+               purchaseRemaining = true;
             }
+        } else if (userOption.startsWith("r")) {
+            Return theReturn = new Return(1, 3, CustomerList.getCustomers().getCustomerByID(0)); // (orderID, quantity, customer)
+        } else if (userOption.startsWith("e")) {
+            //Exchange exchange = new Exchange()
+            System.out.println("Will be added soon!");
+        }
             
-            if (purchaseRemaining = true) {
-                String test = scanner.next();
-                if (test.startsWith("y")) {
-                    Sale theSale2 = new Sale(0, (Inventory.getInventory().getItemByID(0).getQuantity()),
-                            CustomerList.getCustomers().getCustomerByID(0));
-                } else {
-                    return;
-                }
+        if (purchaseRemaining = true) {
+            String test = scanner.next();
+            if (test.startsWith("y")) {
+                Sale theSale2 = new Sale(0, (Inventory.getInventory().getItemByID(0).getQuantity()),
+                        CustomerList.getCustomers().getCustomerByID(0));
+            } else {
+                return;
             }
+        }
         
         CustomerList.getCustomers().getCustomerByID(0).printOrderHistory();
 
