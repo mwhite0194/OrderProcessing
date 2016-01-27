@@ -18,13 +18,18 @@ public class TransactionMaker {
         Scanner scanner = new Scanner(System.in);
         boolean userIsActive = true;
         
+        // Print initial inventory
+        Inventory.getInventory().printInventoryWithInventoryValue();
+        
+        // Generate sample customers        
         Customer customer = new Customer("123 Test St.", "Apt. #14", "State College", "PA", "USA", 16801, "Bob", "Smith", 1235555555);
         CustomerList.getCustomers().addCustomer(customer);
         
         CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).printOrderHistory();
         
-        InventoryItem testItem = new InventoryItem(34, "Green Book", 20); // (price, description, quantity)
-        Inventory.getInventory().addItem(testItem);
+        // Generate sample products
+        generateSampleProducts();
+        
         Sale firstSale = new Sale(0, 4, customer); // (productID, quantity, customer)
         
         CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).printOrderHistory();
@@ -69,6 +74,44 @@ public class TransactionMaker {
         //System.out.println("");
         
         CustomerList.getCustomers().getCustomerByID(customer.getCustomerID()).printOrderHistory();
+        
+        Inventory.getInventory().printInventoryWithInventoryValue();
+    }
+    
+    /**
+     * Generate Sample Products
+     */
+    public static void generateSampleProducts() {
+        InventoryItem testItem = new InventoryItem(12.95, "Movo WS3 Dead Cat Windscreen", 28); // (price, description, quantity)
+        Inventory.getInventory().addItem(testItem);
+        
+        testItem = new InventoryItem(22.07, "Shimano UN55 Bracket\t", 12); // (price, description, quantity)
+        Inventory.getInventory().addItem(testItem);
+        
+        testItem = new InventoryItem(10.40, "Nag Champa Incense Sticks", 120); // (price, description, quantity)
+        Inventory.getInventory().addItem(testItem);
+        
+        testItem = new InventoryItem(6.44, "99% Isopropyl Alcohol (Pint)", 223); // (price, description, quantity)
+        Inventory.getInventory().addItem(testItem);
+        
+        testItem = new InventoryItem(12.99, "Blue Racquetballs (3-pack)", 33); // (price, description, quantity)
+        Inventory.getInventory().addItem(testItem);
+        
+        testItem = new InventoryItem(49.95, "Photive Bluetooth Earbuds", 43); // (price, description, quantity)
+        Inventory.getInventory().addItem(testItem);
+        
+        testItem = new InventoryItem(16.77, "Melatonin (3mg)\t\t", 430); // (price, description, quantity)
+        Inventory.getInventory().addItem(testItem);
+        
+        testItem = new InventoryItem(8.36, "Ahmad English Tea #1\t", 7); // (price, description, quantity)
+        Inventory.getInventory().addItem(testItem);
+        
+        testItem = new InventoryItem(15.95, "Vertical Vortex Toy\t", 70); // (price, description, quantity)
+        Inventory.getInventory().addItem(testItem);
+        
+        testItem = new InventoryItem(13.32, "Seirus Innovation 8030\t", 14); // (price, description, quantity)
+        Inventory.getInventory().addItem(testItem);
+        
     }
     
 }

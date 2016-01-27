@@ -86,9 +86,37 @@ public class Inventory {
      * Print inventory
      */
     public void printInventory() {
-        this.getInventoryList().stream().forEach((inventoryListItem) -> {
-            System.out.println("Product ID: " + inventoryListItem.getProductID() + "; Description: " + inventoryListItem.getDescription() + "; Unit Price: " + inventoryListItem.getPrice() + "; Quantity: " + inventoryListItem.getQuantity());
-        });
+        System.out.println("\n---------------------------------------------------------------------------------------\n");
+        System.out.println("Current Store Inventory");
+        if(this.theInventoryList.size() > 0) {
+            System.out.println("\nProduct ID\tDescription\t\t\t\tUnit Price\tQuantity in Stock");
+            this.theInventoryList.stream().forEach((theInventoryItem) -> {
+                theInventoryItem.printInventoryItemDetails();
+            });
+        } else {
+            System.out.println("The inventory is empty.");
+        }
+        System.out.println("\n---------------------------------------------------------------------------------------\n");
+    }
+    
+    /**
+     * Print inventory with total inventory value
+     */
+    public void printInventoryWithInventoryValue() {
+        System.out.println("\n---------------------------------------------------------------------------------------\n");
+        System.out.println("Current Store Inventory");
+        if(this.theInventoryList.size() > 0) {
+            System.out.println("\nProduct ID\tDescription\t\t\t\tUnit Price\tQuantity in Stock");
+            double totalValue = 0;
+            for (InventoryItem theInventoryItem : this.theInventoryList) {
+                theInventoryItem.printInventoryItemDetails();
+                totalValue += (theInventoryItem.getPrice() * theInventoryItem.getQuantity());
+            }
+            System.out.println("\nTotal inventory value: $" + HelperMethods.priceToString(totalValue));
+        } else {
+            System.out.println("The inventory is empty.");
+        }
+        System.out.println("\n---------------------------------------------------------------------------------------\n");
     }
     
 }

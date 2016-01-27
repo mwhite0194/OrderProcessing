@@ -102,4 +102,11 @@ public class InventoryItem {
         this.quantity = newQuantity;
     }
     
+    /**
+     * Print InventoryItem details
+     */
+    public void printInventoryItemDetails() {
+        System.out.println(this.productID + "\t\t" + this.productDesc + "\t\t$" + HelperMethods.priceToString(this.productPrice) + "\t\t" + this.quantity);
+    }
+    
 }
