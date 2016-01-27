@@ -48,19 +48,19 @@ public class TransactionMaker {
                 System.out.println("Will be added soon!");
             }
             
-           if (purchaseRemaining = true) {
-            String test = scanner.next();
-            if (test.startsWith("y")) {
-                Sale theSale2 = new Sale(0, (Inventory.getInventory().getItemByID(0).getQuantity()),
-                        CustomerList.getCustomers().getCustomerByID(0));
-            } else {
-                return;
+            if (purchaseRemaining = true) {
+                String test = scanner.next();
+                if (test.startsWith("y")) {
+                    Sale theSale2 = new Sale(0, (Inventory.getInventory().getItemByID(0).getQuantity()),
+                            CustomerList.getCustomers().getCustomerByID(0));
+                } else {
+                    return;
+                }
             }
         
         CustomerList.getCustomers().getCustomerByID(0).printOrderHistory();
-        
+
         Inventory.getInventory().printInventoryWithInventoryValue();
-    }
     }
     
     /**
