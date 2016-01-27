@@ -239,8 +239,6 @@ public class Customer {
      */
     public boolean validateTransactionByID(int orderIDToGet) {
         for (Transaction theTransaction : this.transactionHistory) {
-            System.out.println("Order ID: " + theTransaction.getOrderID());
-            theTransaction.printTransactionDetails();
             if (theTransaction.getOrderID() == orderIDToGet) {
                 return true;
             }

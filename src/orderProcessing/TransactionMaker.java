@@ -29,32 +29,36 @@ public class TransactionMaker {
         Inventory.getInventory().printInventoryWithInventoryValue();
         
         // Generate first sample sale
-        Sale firstSale = new Sale(0, 4, CustomerList.getCustomers().getCustomerByID(0)); // (productID, quantity, customer)
+        Sale firstSale = new Sale(1001, 4, CustomerList.getCustomers().getCustomerByID(0)); // (productID, quantity, customer)
         
         CustomerList.getCustomers().getCustomerByID(0).printOrderHistory();
         
-        System.out.print("Would you like to [b]uy, [r]eturn, or [e]xchange?: ");
+        System.out.print("Would you like to [b]uy, [r]eturn, [e]xchange, or make an inventory [a]djustment?: ");
         String userOption = scanner.next();
         
         if (userOption.startsWith("b")) {
-            Sale theSale = new Sale(0, 45, CustomerList.getCustomers().getCustomerByID(0));
-            if (theSale.equals(false)) {
-               purchaseRemaining = true;
+            int productIDtoBuy = 1001;
+            Sale theSale = new Sale(productIDtoBuy, 45, CustomerList.getCustomers().getCustomerByID(0));
+            // If the product ID is 0, the sale failed (sale transaction not created)
+            if (theSale.getProductID() == 0) {
+                purchaseRemaining = true;
+                //System.out.println("The quantity of " + Inventory.getInventory().getItemByID(productIDtoBuy).getDescription() + " you requested is not available. Would you like to purchase the remaining stock (" + Inventory.getInventory().getItemByID(productIDtoBuy).getQuantity() + ")?");
             }
         } else if (userOption.startsWith("r")) {
             Return theReturn = new Return(1, 3, CustomerList.getCustomers().getCustomerByID(0)); // (orderID, quantity, customer)
         } else if (userOption.startsWith("e")) {
-            //Exchange exchange = new Exchange()
-            System.out.println("Will be added soon!");
+            Exchange theExchange = new Exchange(1, 1, CustomerList.getCustomers().getCustomerByID(0)); // (orderID, defective (0 or 1), customer)
+        } else if (userOption.startsWith("a")) {
+            InventoryAdjustment theInventoryAdjustment = new InventoryAdjustment(1001, -16, CustomerList.getCustomers().getCustomerByID(0)); // (productID, quantity to adjust (+/-), employee)
         }
             
-        if (purchaseRemaining = true) {
+        if (purchaseRemaining) {
             String test = scanner.next();
             if (test.startsWith("y")) {
-                Sale theSale2 = new Sale(0, (Inventory.getInventory().getItemByID(0).getQuantity()),
+                Sale theSale2 = new Sale(1001, (Inventory.getInventory().getItemByID(1001).getQuantity()),
                         CustomerList.getCustomers().getCustomerByID(0));
             } else {
-                return;
+                System.out.println("Order cancelled.");
             }
         }
         

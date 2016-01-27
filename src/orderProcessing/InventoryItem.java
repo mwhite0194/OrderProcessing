@@ -24,6 +24,10 @@ public class InventoryItem {
      * @param newQuantity 
      */
     public InventoryItem(double newPrice, String newDescription, int newQuantity) {
+        if(nextProductID == 0) {
+            // First product, start with ID 1001
+            nextProductID = 1001;
+        }
         this.productID = nextProductID;
         InventoryItem.nextProductID++;
         this.productPrice = newPrice;

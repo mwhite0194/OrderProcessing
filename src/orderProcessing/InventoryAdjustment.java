@@ -17,16 +17,53 @@ public class InventoryAdjustment extends Transaction {
     private int type;
     
     /**
+     * Private - can only be called from processTransaction() method
+     * @param newProductID
+     * @param newQuantityToAdjust
+     * @param newCustomer the employee responsible for the adjustment
+     */
+    public InventoryAdjustment(int newProductID, int newQuantityToAdjust, Customer newCustomer) {
+        this.processTransaction(newProductID, newQuantityToAdjust, newCustomer);
+    }
+    
+    /**
      * Process the return
      * @param theProductID the ID of the purchased product
-     * @param theQuantity the quantity of the product purchased
-     * @param theCustomer
+     * @param theQuantityToAdjust the quantity of the product purchased
+     * @param theEmployee the employee responsible for the adjustment
      * @return true if successful; false if not
      */
     @Override
-    public boolean processTransaction(int theProductID, int theQuantity, Customer theCustomer) {
+    public final boolean processTransaction(int theProductID, int theQuantityToAdjust, Customer theEmployee) {
         // Inventory adjustments
-        return false;
+        if (Inventory.getInventory().getItemByID(theProductID) != null) {
+            if (theQuantityToAdjust < 0) {
+                if (Inventory.getInventory().getItemByID(theProductID).getQuantity() < (-1 * theQuantityToAdjust)) {
+                    // Can't subtract more than you have - invalid transaction
+                    System.out.println("Invalid inventory adjustment - the new inventory level cannot be less than zero!");
+                    return false;
+                }
+            }
+            // Generate inventory adjustment transaction and add to transaction history
+            int newOrderID = Transaction.getNextOrderID();
+            this.orderID = newOrderID;
+            this.total = 0;
+            this.productID = theProductID;
+            this.quantity = theQuantityToAdjust;
+            this.type = 1; // 3 = inventory adjustment
+            
+            // Adjust the inventory
+            Inventory.getInventory().getItemByID(theProductID).setQuantity(Inventory.getInventory().getItemByID(theProductID).getQuantity() + theQuantityToAdjust);
+            
+            // Add the transaction
+            CustomerList.getCustomers().getCustomerByID(theEmployee.getCustomerID()).addTransaction(this);
+            System.out.println("Valid transaction. Successful inventory adjustment of " + theQuantityToAdjust + " " + Inventory.getInventory().getItemByID(theProductID).getDescription() + "(s) by " + theEmployee.getFullName() + "; there are now " + Inventory.getInventory().getItemByID(theProductID).getQuantity() + " in stock.");
+            return true;
+        } else {
+            // Invalid productID
+            System.out.println("Invalid inventory adjustment - the product ID does not match any product in the system.");
+            return false;
+        }
     }
     
     /**

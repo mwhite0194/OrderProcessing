@@ -86,7 +86,7 @@ public class Inventory {
      * Print inventory
      */
     public void printInventory() {
-        System.out.println("\n---------------------------------------------------------------------------------------\n");
+        System.out.println("\n------------------------------------------------------------------------------------------------\n");
         System.out.println("Current Store Inventory");
         if(this.theInventoryList.size() > 0) {
             System.out.println("\nProduct ID\tDescription\t\t\t\tUnit Price\tQuantity in Stock");
@@ -96,14 +96,14 @@ public class Inventory {
         } else {
             System.out.println("The inventory is empty.");
         }
-        System.out.println("\n---------------------------------------------------------------------------------------\n");
+        System.out.println("\n------------------------------------------------------------------------------------------------\n");
     }
     
     /**
      * Print inventory with total inventory value
      */
     public void printInventoryWithInventoryValue() {
-        System.out.println("\n---------------------------------------------------------------------------------------\n");
+        System.out.println("\n------------------------------------------------------------------------------------------------\n");
         System.out.println("Current Store Inventory");
         if(this.theInventoryList.size() > 0) {
             System.out.println("\nProduct ID\tDescription\t\t\t\tUnit Price\tQuantity in Stock");
@@ -116,7 +116,7 @@ public class Inventory {
         } else {
             System.out.println("The inventory is empty.");
         }
-        System.out.println("\n---------------------------------------------------------------------------------------\n");
+        System.out.println("\n------------------------------------------------------------------------------------------------\n");
     }
     
 }

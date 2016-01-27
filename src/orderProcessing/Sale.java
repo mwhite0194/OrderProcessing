@@ -49,11 +49,8 @@ public class Sale extends Transaction {
             System.out.println("Valid transaction. Successful sale of " + theQuantity + " " + Inventory.getInventory().getItemByID(theProductID).getDescription() + "(s) to " + theCustomer.getFullName() + " for a total of $" + HelperMethods.priceToString(this.total) + "." + " (Order ID: " + this.orderID + ")");
             return true;
         } else {
-            // Invalid transaction; inform customer
-            System.out.println("Invalid transaction. Quantity not available.");
-            // TODO: Offer to allow sale of entire current stock instead         
-            System.out.println("Would you like to make purchase the remaining quantity of: " + 
-                    Inventory.getInventory().getItemByID(theProductID).getQuantity() + "?");
+            // Offer to allow sale of entire current stock instead
+            System.out.println("The quantity of " + Inventory.getInventory().getItemByID(theProductID).getDescription() + " you requested is not available. Would you like to purchase the remaining stock (" + Inventory.getInventory().getItemByID(theProductID).getQuantity() + ")? [y/n]");
             return false;   
         }
     }
