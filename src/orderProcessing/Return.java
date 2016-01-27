@@ -42,8 +42,13 @@ public class Return extends Transaction {
             // TODO: Accept returns of less than the total (max) quantity
             // Set return variables
             int returnProductID = theCustomer.getTransactionByID(theOrderID).getProductID();
-            int returnQuantity = theCustomer.getTransactionByID(theOrderID).getQuantity();
-            double returnTotal = theCustomer.getTransactionByID(theOrderID).getTotal();
+            int returnQuantity = theQuantity;
+            // Check if return quantity is invalid
+            if(theCustomer.getTransactionByID(theOrderID).getQuantity() < returnQuantity) {
+                System.out.println("Invalid return. Returned amount cannot be larger than the initial order.");
+                return false;
+            }
+            double returnTotal = returnQuantity * Inventory.getInventory().getItemByID(returnProductID).getPrice();
             String returnDescription = Inventory.getInventory().getItemByID(returnProductID).getDescription();
             
             // Return the quantity of the item returned to the store inventory
@@ -57,8 +62,9 @@ public class Return extends Transaction {
             this.quantity = returnQuantity;
             this.type = 1; // 1 = return
             
+            // Add the transaction
             CustomerList.getCustomers().getCustomerByID(theCustomer.getCustomerID()).addTransaction(this);
-            System.out.println("Valid transaction. Successful reuturn of " + returnQuantity + " " + returnDescription + "(s) from " + theCustomer.getFullName() + " for a total refund of $" + HelperMethods.priceToString((-1 * this.total)) + ".");
+            System.out.println("Valid transaction. Successful return of " + returnQuantity + " " + returnDescription + "(s) from " + theCustomer.getFullName() + " for a total refund of $" + HelperMethods.priceToString((returnQuantity * Inventory.getInventory().getItemByID(returnProductID).getPrice())) + ".");
             return true;
         } else {
             // Invalid transaction; inform customer
@@ -117,7 +123,7 @@ public class Return extends Transaction {
      */
     @Override
     public void printTransactionDetails() {
-        System.out.println("\nTransaction Details:\nOrder ID: " + this.orderID + "; Total: " + this.total + "; Product ID: " + this.productID + "; Quantity: " + this.quantity + "\n");
+        System.out.println(this.orderID + " (return)\t\t" + this.productID + " (" + Inventory.getInventory().getItemByID(this.productID).getDescription() + ")\t\t" + this.quantity + "\t\t($" + HelperMethods.priceToString(-1 * this.total) + ")");
     }
     
 }

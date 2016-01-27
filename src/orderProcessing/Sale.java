@@ -109,8 +109,7 @@ public class Sale extends Transaction {
      */
     @Override
     public void printTransactionDetails() {
-        //System.out.println("\nTransaction Details:\nOrder ID: " + this.orderID + "; Total: " + this.total + "; Product ID: " + this.productID + "; Quantity: " + this.quantity + "\n");
-        System.out.println(this.orderID + "\t\t" + this.productID + " (" + Inventory.getInventory().getItemByID(this.productID).getDescription() + ")\t\t" + this.quantity + "\t\t$" + HelperMethods.priceToString(this.total));
+        System.out.println(this.orderID + " (sale)\t\t" + this.productID + " (" + Inventory.getInventory().getItemByID(this.productID).getDescription() + ")\t\t" + this.quantity + "\t\t$" + HelperMethods.priceToString(this.total));
     }
     
 }

@@ -268,10 +268,10 @@ public class Customer {
      * Print Order History
      */
     public void printOrderHistory() {
-        System.out.println("\n-----------------------------------------------------------------------------------------\n");
+        System.out.println("\n------------------------------------------------------------------------------------------------\n");
         System.out.println("Customer Order History (" + this.getFullName() + "): ");
         if(this.transactionHistory.size() > 0) {
-            System.out.println("\nOrder ID\tProduct ID\t\t\t\t\tQuantity\tTotal");
+            System.out.println("\nOrder ID\t\tProduct ID\t\t\t\t\tQuantity\tTotal");
             this.transactionHistory.stream().forEach((theTransaction) -> {
                 theTransaction.printTransactionDetails();
                 //System.out.println("Order ID: " + theTransaction.getOrderID() + "; Product ID: " + theTransaction.getProductID() + "; Total: $" + HelperMethods.priceToString(theTransaction.getTotal()));
@@ -279,7 +279,7 @@ public class Customer {
         } else {
             System.out.println("This customer has not placed any orders yet.");
         }
-        System.out.println("\n-----------------------------------------------------------------------------------------\n");
+        System.out.println("\n------------------------------------------------------------------------------------------------\n");
     }
     
 }
