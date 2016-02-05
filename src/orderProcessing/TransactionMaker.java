@@ -5,6 +5,9 @@
 package orderProcessing;
 
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The class for demoing the system
@@ -14,6 +17,7 @@ public class TransactionMaker {
     
     
     public static void main(String[] args) {
+        
         // Test the order processing system
         Scanner scanner = new Scanner(System.in);
         boolean purchaseRemaining = false;
@@ -33,7 +37,7 @@ public class TransactionMaker {
         
         CustomerList.getCustomers().getCustomerByID(0).printOrderHistory();
         
-        System.out.print("Would you like to [b]uy, [r]eturn, [e]xchange, or make an inventory [a]djustment?: ");
+        /*System.out.print("Would you like to [b]uy, [r]eturn, [e]xchange, or make an inventory [a]djustment?: ");
         String userOption = scanner.next();
         
         if (userOption.startsWith("b")) {
@@ -60,11 +64,28 @@ public class TransactionMaker {
             } else {
                 System.out.println("Order cancelled.");
             }
+        } */
+        
+        
+        // THREADED VERSION (all sales to Bob Smith)
+        CustomerThread transaction1 = new CustomerThread(0, 1001, 1, 0);
+        CustomerThread transaction2 = new CustomerThread(0, 1001, 2, 0);
+        CustomerThread transaction3 = new CustomerThread(0, 1001, 3, 0);
+        transaction1.start();
+        transaction2.start();
+        transaction3.start();
+        
+        // Wait! Concurrent modification error for the serializable classes if you don't wait for the threads to finish. Yes, this should be done a better way.
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException ex) {
+            System.out.println("Failed to wait.");
         }
         
         CustomerList.getCustomers().getCustomerByID(0).printOrderHistory();
-
+            
         Inventory.getInventory().printInventoryWithInventoryValue();
+        
     }
     
     /**
