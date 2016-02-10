@@ -68,12 +68,14 @@ public class TransactionMaker {
         
         
         // THREADED VERSION (all sales to Bob Smith)
-        CustomerThread transaction1 = new CustomerThread(0, 1001, 1, 0);
-        CustomerThread transaction2 = new CustomerThread(0, 1001, 2, 0);
-        CustomerThread transaction3 = new CustomerThread(0, 1001, 3, 0);
-        transaction1.start();
-        transaction2.start();
-        transaction3.start();
+        // TODO: Answer quantity unavailable message automatically
+        CustomerThread transactionThread;
+        for (int i = 0; i < 100; i++) {
+            int itemID = HelperMethods.randomInteger(1001, 1010);
+            int quantity = HelperMethods.randomInteger(1, 5);
+            transactionThread = new CustomerThread(0, itemID, quantity, 0);
+            transactionThread.start();
+        }
         
         // Wait! Concurrent modification error for the serializable classes if you don't wait for the threads to finish. Yes, this should be done a better way.
         try {

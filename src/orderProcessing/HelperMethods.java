@@ -5,6 +5,7 @@
 package orderProcessing;
 
 import java.text.DecimalFormat;
+import java.util.Random;
 
 /**
  * Helper Methods for Order Processing System
@@ -29,6 +30,11 @@ public class HelperMethods {
         } else {
             return priceWithoutDecimal(price);
         }
+    }
+    
+    public static int randomInteger(int min, int max) {
+        Random random = new Random();
+        return random.nextInt(max - min) + min;
     }
     
 }
