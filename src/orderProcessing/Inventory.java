@@ -47,7 +47,7 @@ public class Inventory {
      * @param newItem the InventoryItem to add to theInventoryList
      * @return true if add was successful; false if item failed to add
      */
-    public boolean addItem(InventoryItem newItem) {
+    public synchronized boolean addItem(InventoryItem newItem) {
         int productID = newItem.getProductID();
         ArrayList<InventoryItem> inventoryList = Inventory.getInventory().getInventoryList();
         if (!inventoryList.stream().noneMatch((inventoryListItem) -> (inventoryListItem.getProductID() == productID))) {
@@ -62,7 +62,7 @@ public class Inventory {
      * @param itemToRemove the item to remove from the inventory
      * @return true if deletion was successful; false if it was not
      */
-    public boolean removeItem(InventoryItem itemToRemove) {
+    public synchronized boolean removeItem(InventoryItem itemToRemove) {
         return Inventory.getInventory().getInventoryList().remove(itemToRemove);
     }
     

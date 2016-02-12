@@ -34,7 +34,7 @@ public class Return extends Transaction {
      * @return true if successful; false if not
      */
     @Override
-    public final boolean processTransaction(int theOrderID, int theQuantity, Customer theCustomer) {
+    public synchronized final boolean processTransaction(int theOrderID, int theQuantity, Customer theCustomer) {
         if (CustomerList.getCustomers().getCustomerByID(theCustomer.getCustomerID()).validateTransactionByID(theOrderID)) {
             // Customer has placed this order; process return
             

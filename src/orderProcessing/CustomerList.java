@@ -47,7 +47,7 @@ public class CustomerList {
      * @param newCustomer the Customer to add to theCustomersList
      * @return true if add was successful; false if Customer failed to add
      */
-    public boolean addCustomer(Customer newCustomer) {
+    public synchronized boolean addCustomer(Customer newCustomer) {
         int customerID = newCustomer.getCustomerID();
         ArrayList<Customer> customersList = CustomerList.getCustomers().getCustomersList();
         if (!customersList.stream().noneMatch((customersListItem) -> (customersListItem.getCustomerID() == customerID))) {
@@ -62,7 +62,7 @@ public class CustomerList {
      * @param customerToRemove the Customer to remove from the customers
      * @return true if deletion was successful; false if it was not
      */
-    public boolean removeCustomer(Customer customerToRemove) {
+    public synchronized boolean removeCustomer(Customer customerToRemove) {
         return CustomerList.getCustomers().getCustomersList().remove(customerToRemove);
     }
     

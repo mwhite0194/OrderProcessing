@@ -70,7 +70,7 @@ public class InventoryItem {
      * Set price
      * @param newPrice the new price for the product
      */
-    public void setPrice(double newPrice) {
+    public synchronized void setPrice(double newPrice) {
         this.productPrice = newPrice;
     }
     
@@ -86,7 +86,7 @@ public class InventoryItem {
      * Set product description
      * @param newDesc the new description for the product
      */
-    public void setDescription(String newDesc) {
+    public synchronized void setDescription(String newDesc) {
         this.productDesc = newDesc;
     }
     
@@ -102,7 +102,7 @@ public class InventoryItem {
      * Set product inventory quantity
      * @param newQuantity the new quantity for the product
      */
-    public void setQuantity(int newQuantity) {
+    public synchronized void setQuantity(int newQuantity) {
         this.quantity = newQuantity;
     }
     

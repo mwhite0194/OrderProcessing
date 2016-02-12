@@ -68,7 +68,7 @@ public class Customer {
      * Set address
      * @param newAddress new address for customer
      */
-    public void setAddress(String newAddress) {
+    public synchronized void setAddress(String newAddress) {
         this.address = newAddress;
     }
     
@@ -84,7 +84,7 @@ public class Customer {
      * Set address (line 2)
      * @param newAddressLine2 new address (line 2) for customer
      */
-    public void setAddressLine2(String newAddressLine2) {
+    public synchronized void setAddressLine2(String newAddressLine2) {
         this.addressLine2 = newAddressLine2;
     }
     
@@ -100,7 +100,7 @@ public class Customer {
      * Set city
      * @param newCity new city for customer
      */
-    public void setCity(String newCity) {
+    public synchronized void setCity(String newCity) {
         this.city = newCity;
     }
     
@@ -116,7 +116,7 @@ public class Customer {
      * Set state
      * @param newState new state for customer
      */
-    public void setState(String newState) {
+    public synchronized void setState(String newState) {
         this.state = newState;
     }
     
@@ -132,7 +132,7 @@ public class Customer {
      * Set country
      * @param newCountry new country for customer
      */
-    public void setCountry(String newCountry) {
+    public synchronized void setCountry(String newCountry) {
         this.country = newCountry;
     }
     
@@ -148,7 +148,7 @@ public class Customer {
      * Set zip code
      * @param newZip new state for customer
      */
-    public void setZip(int newZip) {
+    public synchronized void setZip(int newZip) {
         this.zip = newZip;
     }
     
@@ -164,7 +164,7 @@ public class Customer {
      * Set phone
      * @param newPhone new state for customer
      */
-    public void setPhone(int newPhone) {
+    public synchronized void setPhone(int newPhone) {
         this.phone = newPhone;
     }
     
@@ -180,7 +180,7 @@ public class Customer {
      * Set first name
      * @param newFirstName new first name for customer
      */
-    public void setFirstName(String newFirstName) {
+    public synchronized void setFirstName(String newFirstName) {
         this.firstName = newFirstName;
     }
     
@@ -196,7 +196,7 @@ public class Customer {
      * Set last name
      * @param newLastName new last name for customer
      */
-    public void setLastName(String newLastName) {
+    public synchronized void setLastName(String newLastName) {
         this.lastName = newLastName;
     }
     
@@ -212,7 +212,7 @@ public class Customer {
      * Get full address
      * @return Customer's Full Address
      */
-    public String getFullAddress() {
+    public synchronized String getFullAddress() {
         return this.address + ", " + this.addressLine2 + ", " + this.city + ", " + this.state + ", " + this.zip + ", " + this.country;
     }
     
@@ -220,7 +220,7 @@ public class Customer {
      * Add Transaction
      * @param newTransaction the new transaction to add
      */
-    public void addTransaction(Transaction newTransaction) {
+    public synchronized void addTransaction(Transaction newTransaction) {
         this.transactionHistory.add(newTransaction);
     }
     

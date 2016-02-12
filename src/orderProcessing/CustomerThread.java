@@ -34,6 +34,16 @@ public class CustomerThread extends Thread {
      */
     @Override
     public void run() {
+        // Random wait time
+        int waitTime = HelperMethods.randomInteger(1, 3000);
+        try {
+            Thread.sleep(waitTime);
+        }
+        catch (Exception e) {
+            // Print error
+            System.out.println(e.getMessage());
+        }
+        
         try {
             switch (this.transactionType) {
                 case 0:  Sale newSale = new Sale(this.id, this.quantity, CustomerList.getCustomers().getCustomerByID(this.customerID));

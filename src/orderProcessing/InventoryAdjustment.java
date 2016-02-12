@@ -34,7 +34,7 @@ public class InventoryAdjustment extends Transaction {
      * @return true if successful; false if not
      */
     @Override
-    public final boolean processTransaction(int theProductID, int theQuantityToAdjust, Customer theEmployee) {
+    public synchronized final boolean processTransaction(int theProductID, int theQuantityToAdjust, Customer theEmployee) {
         // Inventory adjustments
         if (Inventory.getInventory().getItemByID(theProductID) != null) {
             if (theQuantityToAdjust < 0) {

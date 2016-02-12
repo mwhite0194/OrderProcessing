@@ -70,16 +70,30 @@ public class TransactionMaker {
         // THREADED VERSION (all sales to Bob Smith)
         // TODO: Answer quantity unavailable message automatically
         CustomerThread transactionThread;
-        for (int i = 0; i < 100; i++) {
+        
+        // 100 random transactions
+        /*for (int i = 0; i < 100; i++) {
             int itemID = HelperMethods.randomInteger(1001, 1010);
             int quantity = HelperMethods.randomInteger(1, 5);
             transactionThread = new CustomerThread(0, itemID, quantity, 0);
+            transactionThread.start();
+        }*/
+        
+        // 100 identical transactions (to sequential customers)
+        for (int i = 0; i < 100; i++) {
+            int customerID = i+1;
+            int itemID = 1007;
+            int quantity = 1;
+            transactionThread = new CustomerThread(0, itemID, quantity, customerID);
+            
+            //TODO: Sometime have a return of the same transaction a random interval later
+            
             transactionThread.start();
         }
         
         // Wait! Concurrent modification error for the serializable classes if you don't wait for the threads to finish. Yes, this should be done a better way.
         try {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException ex) {
             System.out.println("Failed to wait.");
         }

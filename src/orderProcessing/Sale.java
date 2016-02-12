@@ -34,7 +34,7 @@ public class Sale extends Transaction {
      * @return true if successful; false if not
      */
     @Override
-    public final boolean processTransaction(int theProductID, int theQuantity, Customer theCustomer) {
+    public synchronized final boolean processTransaction(int theProductID, int theQuantity, Customer theCustomer) {
         if (Inventory.getInventory().getItemByID(theProductID).getQuantity() >= theQuantity) {
             // Valid transaction; deduct quantity and process order
             Inventory.getInventory().getItemByID(theProductID).setQuantity(Inventory.getInventory().getItemByID(theProductID).getQuantity() - theQuantity);
