@@ -94,7 +94,7 @@ public class InventoryItem {
      * Get product inventory quantity
      * @return InventoryItem's Quantity
      */
-    public int getQuantity() {
+    public synchronized int getQuantity() {
         return this.quantity;
     }
     
