@@ -32,10 +32,10 @@ public class TransactionMaker {
         // Print initial inventory
         Inventory.getInventory().printInventoryWithInventoryValue();
         
-        // Generate first sample sale
-        Sale firstSale = new Sale(1001, 4, CustomerList.getCustomers().getCustomerByID(0)); // (productID, quantity, customer)
+        // Generate first sample sale (4 Movo WS3s @ $12.95/ea)
+        //Sale firstSale = new Sale(1001, 4, CustomerList.getCustomers().getCustomerByID(0)); // (productID, quantity, customer)
         
-        CustomerList.getCustomers().getCustomerByID(0).printOrderHistory();
+        //CustomerList.getCustomers().getCustomerByID(0).printOrderHistory();
         
         /*System.out.print("Would you like to [b]uy, [r]eturn, [e]xchange, or make an inventory [a]djustment?: ");
         String userOption = scanner.next();
@@ -80,7 +80,7 @@ public class TransactionMaker {
         }*/
         
         // 100 identical transactions (to sequential customers)
-        for (int i = 0; i < 100; i++) {
+        /*for (int i = 0; i < 100; i++) {
             int customerID = i+1;
             int itemID = 1007;
             int quantity = 1;
@@ -89,11 +89,29 @@ public class TransactionMaker {
             //TODO: Sometime have a return of the same transaction a random interval later
             
             transactionThread.start();
+        }*/
+        
+        // 30,000 identical transactions (to random customers)
+        int melatoninToAdd = 50000;
+        InventoryAdjustment moreMelatonin = new InventoryAdjustment(1007, melatoninToAdd, CustomerList.getCustomers().getCustomerByID(0)); // Add 50,000 melatonin units to the inventory
+        int skippedThreads = 0;
+        for (int i = 0; i < melatoninToAdd; i++) {
+            int customerID = HelperMethods.randomInteger(1, 100);
+            int itemID = 1007;
+            int quantity = 1;
+            try {
+                transactionThread = new CustomerThread(0, itemID, quantity, customerID);
+                transactionThread.start();
+            } catch (java.lang.OutOfMemoryError e) {
+                // Print error if there are too many active threads – it appears 2024 is the maximum threads configured
+                skippedThreads++;
+                System.out.println("Can't create new thread - too many threads! – Loop #" + i + " – Active Threads: " + java.lang.Thread.activeCount());
+            }            
         }
         
         // Wait! Concurrent modification error for the serializable classes if you don't wait for the threads to finish. Yes, this should be done a better way.
         try {
-            TimeUnit.SECONDS.sleep(5);
+            TimeUnit.SECONDS.sleep(8);
         } catch (InterruptedException ex) {
             System.out.println("Failed to wait.");
         }
@@ -102,6 +120,9 @@ public class TransactionMaker {
             
         Inventory.getInventory().printInventoryWithInventoryValue();
         
+        System.out.println("Skipped threads: " + skippedThreads);
+        System.out.println("There should be " + (430 + skippedThreads) + " melatonin units remaining.");
+        System.out.println("There are " + Inventory.getInventory().getItemByID(1007).getQuantity() + " melatonin units remaining.");
     }
     
     /**

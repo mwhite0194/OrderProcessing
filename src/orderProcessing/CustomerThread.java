@@ -35,7 +35,7 @@ public class CustomerThread extends Thread {
     @Override
     public void run() {
         // Random wait time
-        int waitTime = HelperMethods.randomInteger(1, 3000);
+        int waitTime = HelperMethods.randomInteger(1, 300); // 1-300ms
         try {
             Thread.sleep(waitTime);
         }
