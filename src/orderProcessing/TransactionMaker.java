@@ -93,28 +93,46 @@ public class TransactionMaker {
         
         // 30,000 identical transactions (to random customers)
         int melatoninToAdd = 50000;
+        CustomerThread[] transactionThreads = new CustomerThread[melatoninToAdd]; ;
         InventoryAdjustment moreMelatonin = new InventoryAdjustment(1007, melatoninToAdd, CustomerList.getCustomers().getCustomerByID(0)); // Add 50,000 melatonin units to the inventory
         int skippedThreads = 0;
         for (int i = 0; i < melatoninToAdd; i++) {
             int customerID = HelperMethods.randomInteger(1, 100);
             int itemID = 1007;
             int quantity = 1;
-            try {
-                transactionThread = new CustomerThread(0, itemID, quantity, customerID);
-                transactionThread.start();
-            } catch (java.lang.OutOfMemoryError e) {
-                // Print error if there are too many active threads – it appears 2024 is the maximum threads configured
-                skippedThreads++;
-                System.out.println("Can't create new thread - too many threads! – Loop #" + i + " – Active Threads: " + java.lang.Thread.activeCount());
-            }            
+            transactionThreads[i] = new CustomerThread(0, itemID, quantity, customerID);           
         }
+        for (int i = 0; i < transactionThreads.length; i++) {
+            synchronized(transactionThreads[i]) {
+                try {
+                        try {
+                            transactionThreads[i].start();
+                            System.out.println("New thread started.");
+                        } catch (java.lang.OutOfMemoryError e) {
+                            // Print error if there are too many active threads – it appears 2024 is the maximum threads configured
+                            skippedThreads++;
+                            System.out.println("Can't create new thread - too many threads! – Loop #" + i + " – Active Threads: " + java.lang.Thread.activeCount());
+                        } 
+                        transactionThreads[i].wait();
+                } catch(InterruptedException e) {
+                    System.out.println("Had to wait!");
+                }
+            }
+        }
+        System.out.println("Thread count: " + Thread.activeCount());
+
+        boolean threadsAreAlive;
+        int loops = 0;
+        do {
+            loops++;
+            threadsAreAlive = false;
+            for (CustomerThread currentTransactionThread : transactionThreads) {
+                threadsAreAlive = currentTransactionThread.isAlive() || threadsAreAlive;
+                //currentTransactionThread.notify();
+            }
+        } while(threadsAreAlive);
         
-        // Wait! Concurrent modification error for the serializable classes if you don't wait for the threads to finish. Yes, this should be done a better way.
-        try {
-            TimeUnit.SECONDS.sleep(8);
-        } catch (InterruptedException ex) {
-            System.out.println("Failed to wait.");
-        }
+        System.out.println("Threads alive loops: " + loops);
         
         CustomerList.getCustomers().getCustomerByID(0).printOrderHistory();
             

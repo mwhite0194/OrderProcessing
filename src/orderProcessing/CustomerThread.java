@@ -35,14 +35,14 @@ public class CustomerThread extends Thread {
     @Override
     public void run() {
         // Random wait time
-        int waitTime = HelperMethods.randomInteger(1, 300); // 1-300ms
+        /*int waitTime = HelperMethods.randomInteger(1, 300); // 1-300ms
         try {
             Thread.sleep(waitTime);
         }
         catch (Exception e) {
             // Print error
             System.out.println(e.getMessage());
-        }
+        }*/
         
         try {
             switch (this.transactionType) {
