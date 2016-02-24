@@ -8,7 +8,7 @@ package orderProcessing;
  *
  * @author J. Barclay Walsh and Matt White
  */
-public abstract class Transaction {
+public abstract class Transaction extends Thread {
     
     private static int nextOrderID;
     
@@ -69,5 +69,13 @@ public abstract class Transaction {
      * Print Transaction Details
      */
     public abstract void printTransactionDetails();
+    
+    /**
+     * Run Thread
+     */
+    @Override
+    public void run() {
+        // Nothing
+    }
     
 }

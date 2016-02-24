@@ -15,6 +15,7 @@ public class Sale extends Transaction {
     private int productID;
     private int quantity;
     private int type;
+    private Customer customer;
     
     /**
      * Create new Sale
@@ -23,7 +24,10 @@ public class Sale extends Transaction {
      * @param newCustomer
      */
     public Sale(int newProductID, int newQuantity, Customer newCustomer) {
-        this.processTransaction(newProductID, newQuantity, newCustomer);
+        //this.processTransaction(newProductID, newQuantity, newCustomer);
+        this.productID = newProductID;
+        this.quantity = newQuantity;
+        this.customer = newCustomer;
     }
     
     /**
@@ -107,6 +111,26 @@ public class Sale extends Transaction {
     @Override
     public void printTransactionDetails() {
         System.out.println(this.orderID + " (sale)\t\t" + this.productID + " (" + Inventory.getInventory().getItemByID(this.productID).getDescription() + ")\t\t" + this.quantity + "\t\t$" + HelperMethods.priceToString(this.total));
+    }
+    
+    /**
+     * Run Sale Thread
+     */
+    @Override
+    public void run() {
+        synchronized(this) {
+            // Random wait time
+            int waitTime = HelperMethods.randomInteger(1, 30); // 1-30ms
+            try {
+                Thread.sleep(waitTime);
+            }
+            catch (Exception e) {
+                // Print error
+                System.out.println(e.getMessage());
+            }
+            
+            this.processTransaction(this.productID, this.quantity, this.customer);
+        }
     }
     
 }
