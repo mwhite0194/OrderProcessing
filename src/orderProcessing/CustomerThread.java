@@ -49,6 +49,7 @@ public class CustomerThread extends Thread {
             System.out.println(e.getMessage());
         }*/
         int skippedThreads = 0;
+        int successfulThreads = 0;
         synchronized(this) {
             int melatoninToAdd = this.numberOfThreads;
             Transaction[] transactionThreads = new Transaction[melatoninToAdd]; ;
@@ -59,7 +60,7 @@ public class CustomerThread extends Thread {
                 int customerID = (int)i/(melatoninToAdd/100);//HelperMethods.randomInteger(1, 100);
                 int itemID = 1007;
                 int quantity = 1;
-                int transactionType = 0;//HelperMethods.randomInteger(0, 3);
+                int transactionType = 0;//HelperMethods.randomIntegerWithSeed(0, 3, 262017552961037);
                 
                 try {
                     switch (transactionType) {
@@ -81,15 +82,16 @@ public class CustomerThread extends Thread {
             
             // Run Threads
             for (int i = 0; i < transactionThreads.length; i++) {
-                transactionThreads[i].start();
-                /*try {
+                //transactionThreads[i].start();
+                try {
                     transactionThreads[i].start();
                     System.out.println("New thread started.");
-                } catch (Exception e) { //java.lang.OutOfMemoryError
+                    successfulThreads++;
+                } catch (OutOfMemoryError e) { //java.lang.OutOfMemoryError
                     // Print error if there are too many active threads – it appears 2024 is the maximum threads configured
                     skippedThreads++;
                     System.out.println("Can't create new thread - too many threads! – Loop #" + i + " – Active Threads: " + java.lang.Thread.activeCount());
-                } */
+                }
             }
             System.out.println("Thread count: " + Thread.activeCount());
 
@@ -108,6 +110,9 @@ public class CustomerThread extends Thread {
         }
         
         System.out.println("Skipped threads: " + skippedThreads);
+        System.out.println("Successful threads: " + successfulThreads);
+        System.out.println("There should be " + this.numberOfThreads + " total threads.");
+        System.out.println("There were " + Sale.getValidTransactions() + " valid \"Sale\" transactions.");
         System.out.println("There should be " + (430 + skippedThreads) + " melatonin units remaining.");
         System.out.println("There are " + Inventory.getInventory().getItemByID(1007).getQuantity() + " melatonin units remaining.");
     }

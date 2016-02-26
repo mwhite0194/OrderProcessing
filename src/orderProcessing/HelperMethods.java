@@ -37,4 +37,9 @@ public class HelperMethods {
         return random.nextInt(max - min) + min;
     }
     
+    public static int randomIntegerWithSeed(int min, int max, long seed) {
+        Random random = new Random(seed);
+        return random.nextInt(max - min) + min;
+    }
+    
 }

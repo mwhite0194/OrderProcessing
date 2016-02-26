@@ -16,6 +16,9 @@ public class Inventory {
     
     private static Inventory theInventory;
     
+    public static int inventoryAccessed = 0;
+    public static int inventoryAccessedForSale = 0;
+    
     /**
      * Constructor private to prevent instantiation
      */
@@ -31,6 +34,7 @@ public class Inventory {
         if(theInventory == null){
             theInventory = new Inventory();
         }
+        Inventory.inventoryAccessed++;
         return theInventory;
     }
     

@@ -16,6 +16,7 @@ public class Sale extends Transaction {
     private int quantity;
     private int type;
     private Customer customer;
+    private static int validTransactions = 0;
     
     /**
      * Create new Sale
@@ -51,6 +52,8 @@ public class Sale extends Transaction {
             
             CustomerList.getCustomers().getCustomerByID(theCustomer.getCustomerID()).addTransaction(this);
             System.out.println("Valid transaction. Successful sale of " + theQuantity + " " + Inventory.getInventory().getItemByID(theProductID).getDescription() + "(s) to " + theCustomer.getFullName() + " for a total of $" + HelperMethods.priceToString(this.total) + "." + " (Order ID: " + this.orderID + ")");
+            Sale.validTransactions++;
+            Inventory.inventoryAccessedForSale++;
             return true;
         } else {
             // Offer to allow sale of entire current stock instead
@@ -59,6 +62,9 @@ public class Sale extends Transaction {
         }
     }
     
+    public static int getValidTransactions() {
+        return Sale.validTransactions;
+    }    
     
     /**
      * Get orderID
@@ -120,7 +126,7 @@ public class Sale extends Transaction {
     public void run() {
         synchronized(this) {
             // Random wait time
-            int waitTime = HelperMethods.randomInteger(1, 30); // 1-30ms
+            int waitTime = HelperMethods.randomInteger(1, 10); // 1-30ms
             try {
                 Thread.sleep(waitTime);
             }

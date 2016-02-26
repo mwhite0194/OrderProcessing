@@ -18,6 +18,8 @@ public class TransactionMaker {
     
     public static void main(String[] args) {
         
+        long startTime = System.nanoTime();
+        
         // Test the order processing system
         Scanner scanner = new Scanner(System.in);
         boolean purchaseRemaining = false;
@@ -107,6 +109,16 @@ public class TransactionMaker {
         //CustomerList.getCustomers().getCustomerByID(0).printOrderHistory();
 
         //Inventory.getInventory().printInventoryWithInventoryValue();
+        
+        System.out.println("Transactions added to the customer (Bob Smith): " + CustomerList.getCustomers().getCustomerByID(0).getTransactionsAdded());
+        System.out.println("getInventory() was accessed " + Inventory.inventoryAccessed + " times.");
+        System.out.println("getInventory() was accessed for sales " + Inventory.inventoryAccessedForSale + " times.");
+        System.out.println("Melatonin item's quantity was set " + Inventory.getInventory().getItemByID(1007).itemQuantitySet + " times.");
+        //CustomerList.getCustomers().getCustomerByID(0).printOrderHistory();
+        
+        long runTime = System.nanoTime() - startTime;
+        
+        System.out.println("Total run time: " + (runTime/1000000) + " miliseconds");
         
     }
     

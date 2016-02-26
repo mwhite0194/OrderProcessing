@@ -17,6 +17,8 @@ public class InventoryItem {
     private String productDesc;
     private int quantity;
     
+    public int itemQuantitySet;
+    
     /**
      * Constructor for InventoryItem
      * @param newPrice
@@ -33,6 +35,8 @@ public class InventoryItem {
         this.productPrice = newPrice;
         this.productDesc = newDescription;
         this.quantity = newQuantity;
+        
+        this.itemQuantitySet = 0;
     }
     
     /**
@@ -103,6 +107,7 @@ public class InventoryItem {
      * @param newQuantity the new quantity for the product
      */
     public synchronized void setQuantity(int newQuantity) {
+        this.itemQuantitySet++;
         this.quantity = newQuantity;
     }
     

@@ -18,6 +18,7 @@ public class Customer {
     private int phone, zip;
     private String address, addressLine2, city, state, country, firstName, lastName;
     private final ArrayList<Transaction> transactionHistory;
+    private int transactionsAdded;
    
     /**
      * Constructor for Customer
@@ -44,6 +45,7 @@ public class Customer {
         this.lastName = newLastName;
         this.phone = newPhoneNumber;
         this.transactionHistory = new ArrayList<>();
+        this.transactionsAdded = 0;
     }
     
     // Getters and setters
@@ -222,6 +224,15 @@ public class Customer {
      */
     public synchronized void addTransaction(Transaction newTransaction) {
         this.transactionHistory.add(newTransaction);
+        this.transactionsAdded++;
+    }
+    
+    /**
+     * Get the number of transactions added to this customer
+     * @return (int) the number of transactions
+     */
+    public int getTransactionsAdded() {
+        return this.transactionsAdded;
     }
     
     /**
