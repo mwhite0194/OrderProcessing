@@ -4,6 +4,9 @@
 
 package orderProcessing;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -19,6 +22,19 @@ public class TransactionMaker {
     public static void main(String[] args) {
         
         long startTime = System.nanoTime();
+        
+        // Start MySQL Connection
+        String url = "jdbc:mysql://108.52.194.58:3306/ist411";
+        String username = "ist411";
+        String password = "cwqx6abVRB82Tt4i8Byb";
+
+        System.out.println("Connecting to MySQL database...");
+
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            System.out.println("Database connected!");
+        } catch (SQLException e) {
+            throw new IllegalStateException("Cannot connect the database!", e);
+        }
         
         // Test the order processing system
         Scanner scanner = new Scanner(System.in);

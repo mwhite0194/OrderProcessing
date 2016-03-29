@@ -83,15 +83,17 @@ public class CustomerThread extends Thread {
             // Run Threads
             for (int i = 0; i < transactionThreads.length; i++) {
                 //transactionThreads[i].start();
-                try {
-                    transactionThreads[i].start();
-                    System.out.println("New thread started.");
-                    successfulThreads++;
-                } catch (OutOfMemoryError e) { //java.lang.OutOfMemoryError
-                    // Print error if there are too many active threads – it appears 2024 is the maximum threads configured
-                    skippedThreads++;
-                    System.out.println("Can't create new thread - too many threads! – Loop #" + i + " – Active Threads: " + java.lang.Thread.activeCount());
-                }
+                //synchronized(transactionThreads[i]) {
+                    try {
+                        transactionThreads[i].start();
+                        System.out.println("New thread started.");
+                        successfulThreads++;
+                    } catch (OutOfMemoryError e) { //java.lang.OutOfMemoryError
+                        // Print error if there are too many active threads – it appears 2024 is the maximum threads configured
+                        skippedThreads++;
+                        System.out.println("Can't create new thread - too many threads! – Loop #" + i + " – Active Threads: " + java.lang.Thread.activeCount());
+                    }
+                //}
             }
             System.out.println("Thread count: " + Thread.activeCount());
 
