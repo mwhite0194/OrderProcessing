@@ -114,9 +114,9 @@ public class CustomerThread extends Thread {
         System.out.println("Skipped threads: " + skippedThreads);
         System.out.println("Successful threads: " + successfulThreads);
         System.out.println("There should be " + this.numberOfThreads + " total threads.");
-        System.out.println("There were " + Sale.getValidTransactions() + " valid \"Sale\" transactions.");
-        System.out.println("There should be " + (430 + skippedThreads) + " melatonin units remaining.");
-        System.out.println("There are " + Inventory.getInventory().getItemByID(1007).getQuantity() + " melatonin units remaining.");
+        //System.out.println("There were " + Sale.getValidTransactions() + " valid \"Sale\" transactions.");
+        //System.out.println("There should be " + (430 + skippedThreads) + " melatonin units remaining.");
+        //System.out.println("There are " + Inventory.getInventory().getItemByID(1007).getQuantity() + " melatonin units remaining.");
     }
     
 }

@@ -6,7 +6,9 @@ package orderProcessing;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -18,22 +20,45 @@ import java.util.logging.Logger;
  */
 public class TransactionMaker {
     
+    // MySQL Connection Settings
+    static String url = "jdbc:mysql://108.52.194.58:3306/ist411";
+    static String username = "ist411";
+    static String password = "cwqx6abVRB82Tt4i8Byb";
     
     public static void main(String[] args) {
         
         long startTime = System.nanoTime();
         
         // Start MySQL Connection
-        String url = "jdbc:mysql://108.52.194.58:3306/ist411";
-        String username = "ist411";
-        String password = "cwqx6abVRB82Tt4i8Byb";
-
         System.out.println("Connecting to MySQL database...");
 
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             System.out.println("Database connected!");
+            
+            // Create query
+            Statement stmt = connection.createStatement();
+            String query = "SELECT customer_id, first_name, last_name, address_line_1, address_line_2, city, state, zip, phone FROM customer;" ;
+            ResultSet queryResult = stmt.executeQuery(query);
+            
+            // Fetch MySQL query results
+            try {
+                while (queryResult.next()) {
+                    int numColumns = queryResult.getMetaData().getColumnCount();
+                    for ( int i = 1 ; i <= numColumns ; i++ ) {
+                       System.out.println( "COLUMN " + i + " = " + queryResult.getObject(i) );
+                    }
+                }
+            } finally {
+                try { 
+                    queryResult.close(); 
+                } catch (Throwable ignore) { 
+                    /* Ignore */
+                }
+            }
+            
+            connection.close(); // close the MySQL connection
         } catch (SQLException e) {
-            throw new IllegalStateException("Cannot connect the database!", e);
+            throw new IllegalStateException("An error occurred when connecting to the database!", e);
         }
         
         // Test the order processing system
@@ -182,10 +207,27 @@ public class TransactionMaker {
         Customer customer = new Customer("123 Test St.", "Apt. #14", "State College", "PA", "USA", 16801, "Bob", "Smith", 1235555555);
         CustomerList.getCustomers().addCustomer(customer);
         
-        // Generic test customers
-        for(int i = 0; i < 100; i++) {
-            customer = new Customer(i + " Test St.", "Apt. #" + (int)(i/5), "State College", "PA", "USA", 16801, "Test", "Customer " + (i+1), 1235555555);
-            CustomerList.getCustomers().addCustomer(customer);
+        // Start MySQL Connection
+        System.out.println("Connecting to MySQL database...");
+
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            System.out.println("Database connected!");
+            
+            // Generic test customers
+            for(int i = 0; i < 100; i++) {
+                customer = new Customer(i + " Test St.", "Apt. #" + (int)(i/5), "State College", "PA", "USA", 16801, "Test", "Customer " + (i+1), 1235555555);
+                CustomerList.getCustomers().addCustomer(customer);
+                
+                // Add to MySQL database
+                /*Statement stmt = connection.createStatement();
+                String query = "INSERT INTO customer (first_name, last_name, address_line_1, address_line_2, city, state, country, zip, phone) VALUES (\"Test\", \"Customer\", \" Test St.\", \"Apt. #15\", \"State College\", \"PA\", \"USA\", 16801, \"1235555555\");";
+                stmt.executeUpdate(query); // execute query*/
+            }
+            
+            connection.close(); // close the MySQL connection
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new IllegalStateException("An error occurred when connecting to the database!", e);
         }
     }
     
