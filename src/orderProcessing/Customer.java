@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Class for Customer objects in the transaction processing system
- * @author J. Barclay Walsh and Matt White
+ * @author J. Barclay Walsh
  */
 public class Customer {
     

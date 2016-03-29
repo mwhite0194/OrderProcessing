@@ -6,7 +6,7 @@ package orderProcessing;
 
 /**
  * The class for processing returns
- * @author J. Barclay Walsh and Matt White
+ * @author J. Barclay Walsh
  */
 public class Return extends Transaction {
     

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Class for managing Customers
- * @author J. Barclay Walsh and Matt White
+ * @author J. Barclay Walsh
  */
 public class CustomerList {
     

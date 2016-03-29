@@ -6,7 +6,7 @@ package orderProcessing;
 
 /**
  *
- * @author J. Barclay Walsh and Matt White
+ * @author J. Barclay Walsh
  */
 public abstract class Transaction extends Thread {
     

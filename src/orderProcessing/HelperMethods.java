@@ -9,7 +9,7 @@ import java.util.Random;
 
 /**
  * Helper Methods for Order Processing System
- * @author J. Barclay Walsh and Matt White
+ * @author J. Barclay Walsh
  */
 public class HelperMethods {
     

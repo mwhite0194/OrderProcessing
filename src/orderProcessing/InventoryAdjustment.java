@@ -6,7 +6,7 @@ package orderProcessing;
 
 /**
  * The class for processing inventory adjustment transactions
- * @author J. Barclay Walsh and Matt White
+ * @author J. Barclay Walsh
  */
 public class InventoryAdjustment extends Transaction {
     

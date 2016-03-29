@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 /**
  * The class for demoing the system
- * @author J. Barclay Walsh and Matt White
+ * @author J. Barclay Walsh
  */
 public class TransactionMaker {
     

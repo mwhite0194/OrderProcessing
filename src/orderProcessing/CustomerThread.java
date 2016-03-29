@@ -6,7 +6,7 @@ package orderProcessing;
 
 /**
  * The class creates example customer threads
- * @author J. Barclay Walsh and Matt White
+ * @author J. Barclay Walsh
  */
 public class CustomerThread extends Thread {
     
