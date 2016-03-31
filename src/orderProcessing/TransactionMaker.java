@@ -35,7 +35,7 @@ public class TransactionMaker {
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             System.out.println("Database connected!");
             
-            // Create query
+            // Create query to get customers from the remote MySQL database
             Statement stmt = connection.createStatement();
             String query = "SELECT customer_id, first_name, last_name, address_line_1, address_line_2, city, state, zip, phone FROM customer;" ;
             ResultSet queryResult = stmt.executeQuery(query);
@@ -43,6 +43,29 @@ public class TransactionMaker {
             // Fetch MySQL query results
             try {
                 while (queryResult.next()) {
+                    System.out.println("\nCustomer #" + queryResult.getObject(1));
+                    int numColumns = queryResult.getMetaData().getColumnCount();
+                    for ( int i = 1 ; i <= numColumns ; i++ ) {
+                       System.out.println( "COLUMN " + i + " = " + queryResult.getObject(i) );
+                    }
+                }
+            } finally {
+                try { 
+                    queryResult.close(); 
+                } catch (Throwable ignore) { 
+                    /* Ignore */
+                }
+            }
+            
+            // Create query to get inventory from the remote MySQL database
+            stmt = connection.createStatement();
+            query = "SELECT product_id, price, description, quantity FROM inventory;" ;
+            queryResult = stmt.executeQuery(query);
+            
+            // Fetch MySQL query results
+            try {
+                while (queryResult.next()) {
+                    System.out.println("\nInventory Item ID #" + queryResult.getObject(1));
                     int numColumns = queryResult.getMetaData().getColumnCount();
                     for ( int i = 1 ; i <= numColumns ; i++ ) {
                        System.out.println( "COLUMN " + i + " = " + queryResult.getObject(i) );
@@ -172,31 +195,63 @@ public class TransactionMaker {
         
         testItem = new InventoryItem(22.07, "Shimano UN55 Bracket\t", 12); // (price, description, quantity)
         Inventory.getInventory().addItem(testItem);
+        //addInventoryItemToMySQLDatabase(22.07, "Shimano UN55 Bracket\t", 12);
         
         testItem = new InventoryItem(10.40, "Nag Champa Incense Sticks", 120); // (price, description, quantity)
         Inventory.getInventory().addItem(testItem);
+        //addInventoryItemToMySQLDatabase(10.40, "Nag Champa Incense Sticks", 120);
         
         testItem = new InventoryItem(6.44, "99% Isopropyl Alcohol (Pint)", 223); // (price, description, quantity)
         Inventory.getInventory().addItem(testItem);
+        //addInventoryItemToMySQLDatabase(6.44, "99% Isopropyl Alcohol (Pint)", 223);
         
         testItem = new InventoryItem(12.99, "Blue Racquetballs (3-pack)", 33); // (price, description, quantity)
         Inventory.getInventory().addItem(testItem);
+        //addInventoryItemToMySQLDatabase(12.99, "Blue Racquetballs (3-pack)", 33);
         
         testItem = new InventoryItem(49.95, "Photive Bluetooth Earbuds", 43); // (price, description, quantity)
         Inventory.getInventory().addItem(testItem);
+        //addInventoryItemToMySQLDatabase(49.95, "Photive Bluetooth Earbuds", 43);
         
         testItem = new InventoryItem(16.77, "Melatonin (3mg)\t\t", 430); // (price, description, quantity)
         Inventory.getInventory().addItem(testItem);
+        //addInventoryItemToMySQLDatabase(16.77, "Melatonin (3mg)\t\t", 430);
         
         testItem = new InventoryItem(8.36, "Ahmad English Tea #1\t", 7); // (price, description, quantity)
         Inventory.getInventory().addItem(testItem);
+        //addInventoryItemToMySQLDatabase(8.36, "Ahmad English Tea #1\t", 7);
         
         testItem = new InventoryItem(15.95, "Vertical Vortex Toy\t", 70); // (price, description, quantity)
         Inventory.getInventory().addItem(testItem);
+        //addInventoryItemToMySQLDatabase(15.95, "Vertical Vortex Toy\t", 70);
         
         testItem = new InventoryItem(13.32, "Seirus Innovation 8030\t", 14); // (price, description, quantity)
         Inventory.getInventory().addItem(testItem);
+        //addInventoryItemToMySQLDatabase(13.32, "Seirus Innovation 8030\t", 14);
         
+    }
+    
+    /** 
+     * Add item to MySQL database
+     * @param price the price of the item (per unit)
+     * @param description the description (what the item is)
+     * @param quantity the starting quantity in stock
+     */
+    public static void addInventoryItemToMySQLDatabase(double price, String description, int quantity) {
+        // Open MySQL Connection
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            System.out.println("Database connected!");
+            
+            // Generate statement
+            Statement stmt = connection.createStatement();
+            String query = "INSERT INTO inventory (price, description, quantity) VALUES (" + price + ", \"" + description + "\", " + quantity + ");";
+            
+            // Execute statement
+            stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new IllegalStateException("An error occurred when connecting to the database!", e);
+        }
     }
     
     /**
