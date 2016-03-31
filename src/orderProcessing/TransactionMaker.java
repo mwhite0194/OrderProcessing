@@ -158,7 +158,7 @@ public class TransactionMaker {
         }*/
         
         // 50,000 identical transactions (to random customers)
-        CustomerThread customerThread = new CustomerThread(4000);
+        CustomerThread customerThread = new CustomerThread(4000); // 100,000 transactions run in 46.6 seconds; using 4k for faster testing
 		
         synchronized(customerThread) {
             try {
