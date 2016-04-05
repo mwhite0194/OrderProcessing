@@ -4,13 +4,25 @@
 
 package orderProcessing;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import static orderProcessing.Inventory.url;
+import static orderProcessing.TransactionMaker.url;
 
 /**
  * Class for Customer objects in the transaction processing system
  * @author J. Barclay Walsh
  */
 public class Customer {
+    
+    // MySQL Connection Settings
+    static String url = "jdbc:mysql://108.52.194.58:3306/ist411";
+    static String username = "ist411";
+    static String password = "cwqx6abVRB82Tt4i8Byb";
     
     private static int nextCustomerID;
     
@@ -224,6 +236,26 @@ public class Customer {
      */
     public synchronized void addTransaction(Transaction newTransaction) {
         this.transactionHistory.add(newTransaction);
+        
+        // Add to MySQL database
+        // Start MySQL Connection
+        System.out.println("Connecting to MySQL database...");
+
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            System.out.println("Database connected!");
+            
+            // Create query to get inventory from the remote MySQL database
+            Statement stmt = connection.createStatement();
+            String query = "INSERT INTO transaction(order_id, customer_id, total, product_id, quantity, type) VALUES (" + newTransaction.getOrderID() + ", " + this.getCustomerID() + ", " + newTransaction.getTotal() + ", " + newTransaction.getProductID() + ", " + newTransaction.getQuantity() + ", " + newTransaction.getType() + ");" ;
+            stmt.executeUpdate(query);
+            
+            System.out.println("Transaction successfully added to the database!");
+            
+            connection.close(); // close the MySQL connection
+        } catch (SQLException e) {
+            throw new IllegalStateException("An error occurred when connecting to the database!", e);
+        }
+        
         this.transactionsAdded++;
     }
     
@@ -289,6 +321,46 @@ public class Customer {
             System.out.println("This customer has not placed any orders yet.");
         }
         System.out.println("\n------------------------------------------------------------------------------------------------\n");
+    }
+    
+    /**
+     * Print Order History (MySQL)
+     */
+    public void printOrderHistoryMySQL() {
+        // Start MySQL Connection
+        System.out.println("Connecting to MySQL database...");
+
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            System.out.println("Database connected!");
+            
+            // Create query to get transactions for this customer from the remote database
+            Statement stmt = connection.createStatement();
+            String query = "SELECT transaction.order_id, transaction.total, transaction.product_id, transaction.quantity, transaction.type, transaction_type.name, inventory.description FROM transaction, transaction_type, inventory WHERE inventory.product_id = transaction.product_id AND transaction.customer_id = \'" + this.customerID + "\' AND transaction_type.type_id = transaction.type;";
+            ResultSet queryResult = stmt.executeQuery(query);
+            
+            System.out.println("\n------------------------------------------------------------------------------------------------\n");
+            System.out.println("Customer Order History (" + this.getFullName() + "): ");
+            System.out.println("\nOrder ID\t\tProduct ID\t\t\t\t\tQuantity\tTotal");
+            
+            // Fetch MySQL query results
+            try {
+                while (queryResult.next()) {
+                    System.out.println(queryResult.getObject(1) + " (" + queryResult.getObject(6) + ")\t\t" + queryResult.getObject(3) + " (" + queryResult.getObject(7) + ")\t\t" + queryResult.getObject(4) + "\t\t$" + HelperMethods.priceToString((Double) queryResult.getObject(2)));
+                }
+            } finally {
+                try { 
+                    queryResult.close(); 
+                } catch (Throwable ignore) { 
+                    /* Ignore */
+                }
+            }
+            
+            System.out.println("\n------------------------------------------------------------------------------------------------\n");
+            
+            connection.close(); // close the MySQL connection
+        } catch (SQLException e) {
+            throw new IllegalStateException("An error occurred when connecting to the database!", e);
+        }
     }
     
 }

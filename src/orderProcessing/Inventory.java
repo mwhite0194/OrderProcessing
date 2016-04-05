@@ -4,13 +4,24 @@
 
 package orderProcessing;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import static orderProcessing.TransactionMaker.url;
 
 /**
  * Class for managing product inventory
  * @author J. Barclay Walsh
  */
 public class Inventory {
+    
+    // MySQL Connection Settings
+    static String url = "jdbc:mysql://108.52.194.58:3306/ist411";
+    static String username = "ist411";
+    static String password = "cwqx6abVRB82Tt4i8Byb";
     
     private final ArrayList<InventoryItem> theInventoryList;
     
@@ -101,6 +112,47 @@ public class Inventory {
             System.out.println("The inventory is empty.");
         }
         System.out.println("\n------------------------------------------------------------------------------------------------\n");
+    }
+    
+    /**
+     * Print Inventory (MySQL)
+     */
+    public void printInventoryMySQL() {
+        // Start MySQL Connection
+        System.out.println("Connecting to MySQL database...");
+
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            System.out.println("Database connected!");
+            
+            // Create query to get inventory from the remote MySQL database
+            Statement stmt = connection.createStatement();
+            String query = "SELECT product_id, price, description, quantity FROM inventory;" ;
+            ResultSet queryResult = stmt.executeQuery(query);
+            
+            System.out.println("\n------------------------------------------------------------------------------------------------\n");
+            System.out.println("Current Store Inventory");
+            System.out.println("\nProduct ID\tDescription\t\t\t\tUnit Price\tQuantity in Stock");
+            
+            // Fetch MySQL query results
+            try {
+                while (queryResult.next()) {                    
+                    // Print Item Details
+                    System.out.println(queryResult.getObject(1) + "\t\t" + queryResult.getObject(3) + "\t\t$" + HelperMethods.priceToString((Double) queryResult.getObject(2)) + "\t\t" + queryResult.getObject(4));
+                }
+            } finally {
+                try { 
+                    queryResult.close(); 
+                } catch (Throwable ignore) { 
+                    /* Ignore */
+                }
+            }
+            
+            System.out.println("\n------------------------------------------------------------------------------------------------\n");
+            
+            connection.close(); // close the MySQL connection
+        } catch (SQLException e) {
+            throw new IllegalStateException("An error occurred when connecting to the database!", e);
+        }
     }
     
     /**

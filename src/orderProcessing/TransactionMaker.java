@@ -158,7 +158,7 @@ public class TransactionMaker {
         }*/
         
         // 50,000 identical transactions (to random customers)
-        CustomerThread customerThread = new CustomerThread(4000); // 100,000 transactions run in 46.6 seconds; using 4k for faster testing
+        CustomerThread customerThread = new CustomerThread(1000); // 100,000 transactions run in 46.6 seconds; using 4k for faster testing
 		
         synchronized(customerThread) {
             try {
@@ -179,6 +179,9 @@ public class TransactionMaker {
         System.out.println("getInventory() was accessed for sales " + Inventory.inventoryAccessedForSale + " times.");
         System.out.println("Melatonin item's quantity was set " + Inventory.getInventory().getItemByID(1007).itemQuantitySet + " times.");
         //CustomerList.getCustomers().getCustomerByID(0).printOrderHistory();
+        
+        Inventory.getInventory().printInventoryMySQL();
+        CustomerList.getCustomers().getCustomerByID(0).printOrderHistoryMySQL();
         
         long runTime = System.nanoTime() - startTime;
         
