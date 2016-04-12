@@ -50,7 +50,7 @@ public class InventoryAdjustment extends Transaction {
             this.total = 0;
             this.productID = theProductID;
             this.quantity = theQuantityToAdjust;
-            this.type = 1; // 3 = inventory adjustment
+            this.type = 3; // 3 = inventory adjustment
             
             // Adjust the inventory
             Inventory.getInventory().getItemByID(theProductID).setQuantity(Inventory.getInventory().getItemByID(theProductID).getQuantity() + theQuantityToAdjust);
