@@ -13,6 +13,7 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static orderProcessing.Customer.url;
 
 /**
  * The class for demoing the system
@@ -28,6 +29,8 @@ public class TransactionMaker {
     public static void main(String[] args) {
         
         long startTime = System.nanoTime();
+        
+        clearRemoteTransactions(); // clear transaction from previous run
         
         // Start MySQL Connection
         System.out.println("Connecting to MySQL database...");
@@ -180,8 +183,9 @@ public class TransactionMaker {
         System.out.println("Melatonin item's quantity was set " + Inventory.getInventory().getItemByID(1007).itemQuantitySet + " times.");
         //CustomerList.getCustomers().getCustomerByID(0).printOrderHistory();
         
-        Inventory.getInventory().printInventoryMySQL();
-        CustomerList.getCustomers().getCustomerByID(0).printOrderHistoryMySQL();
+        Inventory.getInventory().printInventoryMySQL(); // print store inventory from MySQL Database
+        CustomerList.getCustomers().getCustomerByID(0).printOrderHistoryMySQL(); // print Bob Smith's order history from MySQL Database
+        printTransactionHistory(); // print all customers' transaction history from MySQL Database
         
         long runTime = System.nanoTime() - startTime;
         
@@ -287,6 +291,63 @@ public class TransactionMaker {
             System.out.println(e.getMessage());
             throw new IllegalStateException("An error occurred when connecting to the database!", e);
         }
+    }
+    
+    /**
+     * Print transactions for all customers
+     */
+    public static void printTransactionHistory() {        
+        // Connect to MySQL database and fetch data
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            System.out.println("Database connected!");
+            
+            // Create query to get transactions for this customer from the remote database
+            Statement stmt = connection.createStatement();
+            String query = "SELECT transaction.order_id, transaction.total, transaction.product_id, transaction.quantity, transaction.type, transaction_type.name, inventory.description FROM transaction, transaction_type, inventory WHERE inventory.product_id = transaction.product_id AND transaction_type.type_id = transaction.type ORDER BY transaction.order_id;";
+            ResultSet queryResult = stmt.executeQuery(query);
+            
+            System.out.println("\n------------------------------------------------------------------------------------------------\n");
+            System.out.println("Store Order History: ");
+            System.out.println("\nOrder ID\t\tProduct ID\t\t\t\t\tQuantity\tTotal");
+            
+            // Fetch MySQL query results
+            try {
+                while (queryResult.next()) {
+                    System.out.println(queryResult.getObject(1) + " (" + queryResult.getObject(6) + ")\t\t" + queryResult.getObject(3) + " (" + queryResult.getObject(7) + ")\t\t" + queryResult.getObject(4) + "\t\t$" + HelperMethods.priceToString((Double) queryResult.getObject(2)));
+                }
+            } finally {
+                try { 
+                    queryResult.close(); 
+                } catch (Throwable ignore) { 
+                    /* Ignore */
+                }
+            }
+            
+            System.out.println("\n------------------------------------------------------------------------------------------------\n");
+            
+            connection.close(); // close the MySQL connection
+        } catch (SQLException e) {
+            throw new IllegalStateException("An error occurred when connecting to the database!", e);
+        }
+        
+    }
+    
+    /**
+     * Clear transaction history on remote MySQL database
+     */
+    public static void clearRemoteTransactions() {        
+        // Connect to MySQL database and fetch data
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            System.out.println("Database connected!");
+            // Create query to get transactions for this customer from the remote database
+            Statement stmt = connection.createStatement();
+            String query = "DELETE FROM `transaction` WHERE 1;";
+            stmt.executeUpdate(query);
+            connection.close(); // close the MySQL connection
+        } catch (SQLException e) {
+            throw new IllegalStateException("An error occurred when connecting to the database!", e);
+        }
+        
     }
     
 }

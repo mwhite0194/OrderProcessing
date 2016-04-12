@@ -335,7 +335,7 @@ public class Customer {
             
             // Create query to get transactions for this customer from the remote database
             Statement stmt = connection.createStatement();
-            String query = "SELECT transaction.order_id, transaction.total, transaction.product_id, transaction.quantity, transaction.type, transaction_type.name, inventory.description FROM transaction, transaction_type, inventory WHERE inventory.product_id = transaction.product_id AND transaction.customer_id = \'" + this.customerID + "\' AND transaction_type.type_id = transaction.type;";
+            String query = "SELECT transaction.order_id, transaction.total, transaction.product_id, transaction.quantity, transaction.type, transaction_type.name, inventory.description FROM transaction, transaction_type, inventory WHERE inventory.product_id = transaction.product_id AND transaction.customer_id = \'" + this.customerID + "\' AND transaction_type.type_id = transaction.type ORDER BY transaction.order_id;";
             ResultSet queryResult = stmt.executeQuery(query);
             
             System.out.println("\n------------------------------------------------------------------------------------------------\n");
